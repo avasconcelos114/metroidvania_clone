@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjs6pe2o146l6"]
+
+[ext_resource type="SpriteFrames" uid="uid://d3yqus1in2jsl" path="res://Resources/Player/PlayerSpriteFrames.tres" id="1_wnhu4"]
+[ext_resource type="Script" path="res://Scenes/Skills/Dash/DashGhost.gd" id="2_wen15"]
+
+[node name="DashGhost" type="AnimatedSprite2D"]
+modulate = Color(0.815686, 0.168627, 1, 1)
+sprite_frames = ExtResource("1_wnhu4")
+animation = &"dash_fowards"
+script = ExtResource("2_wen15")

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b3n8hp063egoi"
+path="res://.godot/imported/14_Ambience of Sorrow_LOOP.ogg-32995f8fae04968b3906d36bb3030a4a.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Music/14_Ambience of Sorrow_LOOP.ogg"
+dest_files=["res://.godot/imported/14_Ambience of Sorrow_LOOP.ogg-32995f8fae04968b3906d36bb3030a4a.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4
