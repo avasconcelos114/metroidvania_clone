@@ -1,8 +1,11 @@
 extends PlayerState
 
-func update(delta):
+func physics_update(delta):
 	player.gravity(delta)
 	player_movement()
+
+	if player.is_on_floor_only():
+		player.is_double_jumping = false
 
 	if player.attack_input:
 		Transitioned.emit(self, "attacking")
@@ -12,11 +15,8 @@ func update(delta):
 		Transitioned.emit(self, "jumping")
 	if player.crouch_input:
 		Transitioned.emit(self, "crouching")
-	#if Player.velocity.y >0:
-	#	Transitioned.emit(self, "falling")
-	#if player.dash_input and player.can_dash:
-	#	Transitioned.emit(self, "dashing")
-	return null
+	if player.dash_input_actuation and player.dash_unlocked and player.can_dash:
+		Transitioned.emit(self, "dashing")
 
 func enter_state():
 	call_deferred("run_animation")

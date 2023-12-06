@@ -12,16 +12,19 @@ var attack_animations = [
 	"attack_4",
 ]
 
-func update(delta):
+func _ready():
+	attack_reset_timer.timeout.connect(transition_to_idle)
+
+func physics_update(delta):
 	player.gravity(delta)
-	player_movement()
+	if player.is_on_floor():
+		player.velocity.x = move_toward(player.velocity.x, 0, 5)
 
 	if player.attack_input:
 		handle_attack()
 
 func enter_state():
 	current_attack_animation = 0
-	attack_reset_timer.timeout.connect(transition_to_idle)
 
 func exit_state():
 	attack_reset_timer.stop()

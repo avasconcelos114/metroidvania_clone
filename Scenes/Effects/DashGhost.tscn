@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjs6pe2o146l6"]
+
+[ext_resource type="Texture2D" uid="uid://d1x0jebw6l6wn" path="res://Assets/Sprites/Character/DashForward.png" id="1_kx4l8"]
+[ext_resource type="Script" path="res://Scenes/Effects/DashGhost.gd" id="2_wen15"]
+
+[node name="DashGhost" type="Sprite2D"]
+modulate = Color(0.815686, 0.168627, 1, 1)
+texture = ExtResource("1_kx4l8")
+script = ExtResource("2_wen15")

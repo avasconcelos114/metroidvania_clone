@@ -1,6 +1,6 @@
 extends PlayerState
 
-func update(delta):
+func physics_update(delta):
 	player.gravity(delta)
 	if not player.crouch_input:
 		Transitioned.emit(self, "idle")

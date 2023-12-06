@@ -1,8 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://uwxfr20k1mn3"]
+[gd_scene load_steps=20 format=3 uid="uid://uwxfr20k1mn3"]
 
 [ext_resource type="Script" path="res://Scenes/Player/Player.gd" id="1_phk7p"]
 [ext_resource type="SpriteFrames" uid="uid://d3yqus1in2jsl" path="res://Resources/Player/PlayerSpriteFrames.tres" id="2_1yc73"]
-[ext_resource type="PackedScene" uid="uid://qfjjcu0k23gb" path="res://Scenes/Skills/Dash/Dash.tscn" id="3_1vj4l"]
 [ext_resource type="PackedScene" uid="uid://c0f7n0y0tqlul" path="res://Scenes/Components/HealthComponent.tscn" id="3_cgp6e"]
 [ext_resource type="PackedScene" uid="uid://cd2tlp65h22wn" path="res://Scenes/Components/HurtboxComponent.tscn" id="5_lexje"]
 [ext_resource type="PackedScene" uid="uid://bco2bxp5k2mng" path="res://Scenes/Components/HitboxComponent.tscn" id="6_kn5cg"]
@@ -12,6 +11,8 @@
 [ext_resource type="Script" path="res://Scenes/States/PlayerStates/Jumping.gd" id="10_v5qa6"]
 [ext_resource type="Script" path="res://Scenes/States/PlayerStates/Crouching.gd" id="11_pg6aa"]
 [ext_resource type="Script" path="res://Scenes/States/PlayerStates/Attacking.gd" id="12_gfcvy"]
+[ext_resource type="Script" path="res://Scenes/States/PlayerStates/Dashing.gd" id="12_xx4g3"]
+[ext_resource type="Script" path="res://Scenes/States/PlayerStates/WallSlide.gd" id="13_diuc5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rnpju"]
 radius = 9.0
@@ -47,8 +48,8 @@ floor_stop_on_slope = false
 floor_max_angle = 1.0472
 platform_wall_layers = 4
 script = ExtResource("1_phk7p")
-can_dash = true
-can_wall_hug = true
+dash_unlocked = true
+wall_slide_unlocked = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 8)
@@ -56,7 +57,7 @@ shape = SubResource("CapsuleShape2D_rnpju")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_1yc73")
-animation = &"dash_fowards"
+animation = &"dash_forwards"
 autoplay = "default"
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -73,11 +74,6 @@ explosiveness = 0.15
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_cgp6e")]
 
-[node name="Skills" type="Node" parent="."]
-
-[node name="Dash" parent="Skills" node_paths=PackedStringArray("player") instance=ExtResource("3_1vj4l")]
-player = NodePath("../..")
-
 [node name="HurtboxComponent" parent="." instance=ExtResource("5_lexje")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
@@ -89,10 +85,6 @@ position = Vector2(19, 9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 shape = SubResource("RectangleShape2D_sftli")
-
-[node name="AttackResetTimer" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("7_p0ur1")
@@ -106,8 +98,9 @@ player = NodePath("../..")
 script = ExtResource("9_h3v0b")
 player = NodePath("../..")
 
-[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
+[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("WallSlideCooldown", "player")]
 script = ExtResource("10_v5qa6")
+WallSlideCooldown = NodePath("../../Timers/WallSlideCooldownTimer")
 player = NodePath("../..")
 
 [node name="Crouching" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
@@ -116,5 +109,38 @@ player = NodePath("../..")
 
 [node name="Attacking" type="Node" parent="StateMachine" node_paths=PackedStringArray("attack_reset_timer", "player")]
 script = ExtResource("12_gfcvy")
-attack_reset_timer = NodePath("../../AttackResetTimer")
+attack_reset_timer = NodePath("../../Timers/AttackResetTimer")
 player = NodePath("../..")
+
+[node name="Dashing" type="Node" parent="StateMachine" node_paths=PackedStringArray("ghost_timer", "dash_timer", "cooldown_timer", "player")]
+script = ExtResource("12_xx4g3")
+ghost_timer = NodePath("../../Timers/GhostTrailSpawnTimer")
+dash_timer = NodePath("../../Timers/DashDurationTimer")
+cooldown_timer = NodePath("../../Timers/DashCooldownTimer")
+player = NodePath("../..")
+
+[node name="WallSlide" type="Node" parent="StateMachine" node_paths=PackedStringArray("WallSlideCooldown", "player")]
+script = ExtResource("13_diuc5")
+WallSlideCooldown = NodePath("../../Timers/WallSlideCooldownTimer")
+player = NodePath("../..")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="AttackResetTimer" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[node name="DashDurationTimer" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[node name="DashCooldownTimer" type="Timer" parent="Timers"]
+wait_time = 0.4
+one_shot = true
+
+[node name="GhostTrailSpawnTimer" type="Timer" parent="Timers"]
+wait_time = 0.05
+
+[node name="WallSlideCooldownTimer" type="Timer" parent="Timers"]
+wait_time = 0.3
+one_shot = true
