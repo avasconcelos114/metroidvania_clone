@@ -5,7 +5,8 @@ class_name Player
 @export var DASH_SPEED = 1000
 @export var JUMP_VELOCITY = -300.0
 @export var DASH_DURATION = 0.2
-const ACCELERATION = 20.0
+@export var ACCELERATION = 20.0
+@export var HIT_KNOCKBACK = 40
 
 var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -40,11 +41,33 @@ func _ready():
 	if dash_unlocked:
 		enable_dashing()
 	$Timers/DashCooldownTimer.timeout.connect(enable_dashing)
+	$HurtboxComponent.ReceivedHit.connect(receive_hit_effect)
+	$HealthComponent.DiedEvent.connect(handle_player_death)
+
+func receive_hit_effect(direction):
+	if $HealthComponent.has_health_remaining():
+		$BloodSplatter.emitting = true
+		$BloodSplatter.process_material.set("direction:x", direction.x)
+		velocity.x = HIT_KNOCKBACK if direction.x > 0 else -HIT_KNOCKBACK
+		Global.show_damage_flash($AnimatedSprite2D)
+		await get_tree().create_timer(0.2).timeout
+		$BloodSplatter.emitting = false
+
+func handle_player_death():
+	$BloodSplatter.emitting = true
+	$BloodSplatter.position.y = 20
+	$BloodSplatter.process_material.set("direction", Vector2(1, -10))
+	Global.show_damage_flash($AnimatedSprite2D)
+	$AnimatedSprite2D.play("death")
+	Global.PlayerDied.emit()
 
 func _physics_process(_delta):
-	$WallHugParticles.emitting = is_wall_sliding
-	player_input()
-	handle_character_direction()
+	if not $HealthComponent.has_died:
+		player_input()
+		$WallHugParticles.emitting = is_wall_sliding
+		handle_character_direction()
+	else:
+		velocity.x = 0
 	move_and_slide()
 
 func gravity(delta):

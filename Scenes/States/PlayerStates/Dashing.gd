@@ -23,7 +23,7 @@ func physics_update(_delta):
 		player.velocity.x = move_toward(player.velocity.x, player.movement_input * player.DASH_SPEED, player.ACCELERATION)
 	else:
 		player.sprite.play("dash_backwards")
-		player.velocity.x = move_toward(player.velocity.x, -player.last_direction * player.DASH_SPEED, player.ACCELERATION)
+		player.velocity.x = move_toward(player.velocity.x, -player.last_direction * player.DASH_SPEED, player.ACCELERATION * 1.3)
 	player.velocity.y = 0
 
 func exit_state():

@@ -1,7 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://smpi71pmiqut"]
+[gd_scene load_steps=3 format=3 uid="uid://smpi71pmiqut"]
 
-[ext_resource type="PackedScene" uid="uid://cgtjc8in4lnoe" path="res://Levels/Level_00.tscn" id="1_a2xkq"]
+[ext_resource type="Script" path="res://root.gd" id="1_wl3fy"]
+[ext_resource type="PackedScene" uid="uid://c5kuekhj6trst" path="res://GUI/GameOverScreen.tscn" id="2_6w7o5"]
 
 [node name="root" type="Node2D"]
+script = ExtResource("1_wl3fy")
 
-[node name="Level00" parent="." instance=ExtResource("1_a2xkq")]
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="GameOverScreen" parent="GUI" instance=ExtResource("2_6w7o5")]
+visible = false
+
+[connection signal="ReloadLevelPressed" from="GUI/GameOverScreen" to="." method="_on_game_over_screen_reload_level_pressed"]

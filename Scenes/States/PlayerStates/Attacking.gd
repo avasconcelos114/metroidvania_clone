@@ -1,10 +1,12 @@
 extends PlayerState
 
 @export var attack_reset_timer: Timer
+@export var hitbox_component: HitboxComponent
 
-var can_chain_attack = false
 var attack_in_progress = false
 var current_attack_animation = 0
+
+## Names of the animations to trigger in attack combo
 var attack_animations = [
 	"attack_1",
 	"attack_2",
@@ -19,17 +21,18 @@ func physics_update(delta):
 	player.gravity(delta)
 	if player.is_on_floor():
 		player.velocity.x = move_toward(player.velocity.x, 0, 5)
-
 	if player.attack_input:
 		handle_attack()
 
 func enter_state():
 	current_attack_animation = 0
+	handle_attack()
 
 func exit_state():
 	attack_reset_timer.stop()
 
 func handle_attack():
+	var sprite = player.sprite as AnimatedSprite2D
 	if attack_in_progress:
 		return
 
@@ -38,11 +41,12 @@ func handle_attack():
 		attack_in_progress = true
 		attack_reset_timer.stop()
 		# Begin attack sequence
-		player.sprite.play(attack_animations[current_attack_animation])
+		sprite.play(attack_animations[current_attack_animation])
+		hitbox_component.attack()
 		current_attack_animation += 1
 	else:
 		transition_to_idle()
-	await player.sprite.animation_finished
+	await sprite.animation_finished
 	attack_in_progress = false
 	attack_reset_timer.start()
 

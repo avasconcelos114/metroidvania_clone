@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnkjd4vx6wkpa"]
+
+[sub_resource type="Gradient" id="Gradient_58vtw"]
+offsets = PackedFloat32Array(0, 0.276657, 0.538905, 0.798271, 1)
+colors = PackedColorArray(0.303233, 0.303233, 0.303233, 1, 0.605274, 0.605274, 0.605274, 1, 0.615422, 0.615422, 0.615422, 1, 0.446777, 0.446777, 0.446777, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4krj4"]
+gradient = SubResource("Gradient_58vtw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g2l8t"]
+lifetime_randomness = 0.2
+particle_flag_rotate_y = true
+angle_min = 2.0
+angle_max = 5.0
+velocity_pivot = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+initial_velocity_min = 39.3
+initial_velocity_max = 87.34
+gravity = Vector3(0, 98, 0)
+scale_min = 3.0
+scale_max = 5.0
+color = Color(1, 0.0784314, 0.14902, 1)
+color_ramp = SubResource("GradientTexture1D_4krj4")
+collision_mode = 2
+
+[node name="BloodSplatter" type="GPUParticles2D"]
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_g2l8t")
+speed_scale = 1.2
+trail_lifetime = 0.08
+trail_sections = 2

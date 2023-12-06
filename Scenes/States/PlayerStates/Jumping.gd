@@ -7,6 +7,7 @@ func physics_update(delta):
 	player_movement()
 
 	if player.attack_input:
+		player.sprite.stop()
 		Transitioned.emit(self, "attacking")
 	elif player.is_on_floor():
 		Transitioned.emit(self, "idle")

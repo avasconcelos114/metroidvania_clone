@@ -8,6 +8,7 @@ func physics_update(delta):
 		player.is_double_jumping = false
 
 	if player.attack_input:
+		player.sprite.stop()
 		Transitioned.emit(self, "attacking")
 	if player.movement_input != 0:
 		Transitioned.emit(self, "running")
@@ -19,7 +20,7 @@ func physics_update(delta):
 		Transitioned.emit(self, "dashing")
 
 func enter_state():
-	call_deferred("run_animation")
+	call_deferred("play_animation")
 
-func run_animation():
+func play_animation():
 	player.sprite.play("default")
