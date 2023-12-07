@@ -34,10 +34,6 @@ var can_dash = false
 # Attack related variables
 var attack_input = false
 
-# States
-var current_state = null
-var prev_state = null
-
 func _ready():
 	if dash_unlocked:
 		enable_dashing()
@@ -88,7 +84,7 @@ func handle_character_direction():
 	if last_direction < 0:
 		$AnimatedSprite2D.set_flip_h(true)
 		$WallHugParticles.position.x = -12
-		$HitboxComponent.position.x = -20
+		$HitboxComponent.position.x = -58
 	else:
 		$AnimatedSprite2D.set_flip_h(false)
 		$WallHugParticles.position.x = 12

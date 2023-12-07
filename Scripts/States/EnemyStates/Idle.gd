@@ -5,7 +5,6 @@ extends BaseState
 @export var navigation_agent: NavigationAgent2D
 @export var patrol_timer: Timer
 
-var move_direction : float
 var is_moving = false
 
 func enter_state():
@@ -25,6 +24,12 @@ func transition_to_death():
 func physics_update(delta):
 	handle_movement()
 
+	var distance = Global.player.global_position - enemy.global_position
+	var should_aggro = distance.length() < enemy.aggro_distance
+	if should_aggro:
+		Transitioned.emit(self, "chase")
+
+
 func handle_movement():
 	if is_moving and not navigation_agent.is_navigation_finished():
 		var new_position = navigation_agent.get_next_path_position()
@@ -32,9 +37,8 @@ func handle_movement():
 		direction = direction.normalized()
 		if navigation_agent.is_target_reachable():
 			# Only move if the target can be reached
-			move_direction = direction.x
-			enemy.velocity = direction * 50
-			sprite.set_flip_h(move_direction < 0)
+			enemy.velocity = direction * enemy.speed
+			enemy.last_direction = direction.x
 			sprite.play("walk")
 			enemy.move_and_slide()
 			return

@@ -21,6 +21,8 @@ func physics_update(delta):
 	player.gravity(delta)
 	if player.is_on_floor():
 		player.velocity.x = move_toward(player.velocity.x, 0, 5)
+	if player.dash_input_actuation and player.dash_unlocked and player.can_dash:
+		Transitioned.emit(self, "dashing")
 	if player.attack_input:
 		handle_attack()
 
@@ -38,16 +40,20 @@ func handle_attack():
 		return
 
 	# check if we have a valid queued attack
-	if attack_animations.size() > current_attack_animation:
-		attack_in_progress = true
-		attack_reset_timer.stop()
-		# Begin attack sequence
-		sprite.play(attack_animations[current_attack_animation])
-		hitbox_component.attack()
-		current_attack_animation += 1
-	else:
-		transition_to_idle()
+	attack_in_progress = true
+	sprite.play("attack_1")
+	hitbox_component.attack()
+	#if attack_animations.size() > current_attack_animation:
+		#attack_in_progress = true
+		#attack_reset_timer.stop()
+		## Begin attack sequence
+		#sprite.play(attack_animations[current_attack_animation])
+		#hitbox_component.attack()
+		#current_attack_animation += 1
+	#else:
+		#transition_to_idle()
 	await sprite.animation_finished
+	sprite.play("default")
 	attack_in_progress = false
 	attack_reset_timer.start()
 

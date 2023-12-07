@@ -52,7 +52,7 @@ radius = 9.0
 height = 48.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sftli"]
-size = Vector2(34, 20)
+size = Vector2(57, 20)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 9
@@ -61,6 +61,7 @@ floor_stop_on_slope = false
 floor_max_angle = 1.0472
 platform_wall_layers = 4
 script = ExtResource("1_phk7p")
+ACCELERATION = 15.0
 HIT_KNOCKBACK = 500
 dash_unlocked = true
 wall_slide_unlocked = true
@@ -88,7 +89,6 @@ speed_scale = 0.6
 explosiveness = 0.15
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_cgp6e")]
-max_health = 20
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_lexje")]
 collision_layer = 96
@@ -107,15 +107,11 @@ collision_mask = 144
 damage_stats = ExtResource("6_51172")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-position = Vector2(7, 0)
+position = Vector2(20, 2.08165e-12)
 shape = SubResource("RectangleShape2D_sftli")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("9_omggr")
-
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
-script = ExtResource("10_g3a8n")
-player = NodePath("../..")
 
 [node name="Running" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
 script = ExtResource("11_upoem")
@@ -151,6 +147,10 @@ player = NodePath("../..")
 
 [node name="Death" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
 script = ExtResource("17_vt5w1")
+player = NodePath("../..")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("10_g3a8n")
 player = NodePath("../..")
 
 [node name="Timers" type="Node" parent="."]

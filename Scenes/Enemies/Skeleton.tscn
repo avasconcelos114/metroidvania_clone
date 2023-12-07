@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cp48ek7127bta"]
+[gd_scene load_steps=18 format=3 uid="uid://cp48ek7127bta"]
 
 [ext_resource type="Script" path="res://Scenes/Enemies/Skeleton.gd" id="1_cfg7h"]
 [ext_resource type="SpriteFrames" uid="uid://dbreytf8dgkc4" path="res://Resources/Enemies/SkeletonFrames.tres" id="1_n8q0g"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" path="res://Scripts/States/StateMachine.gd" id="9_s5w75"]
 [ext_resource type="Script" path="res://Scripts/States/EnemyStates/Idle.gd" id="10_1e7gl"]
 [ext_resource type="Script" path="res://Scripts/States/EnemyStates/Death.gd" id="11_qnsjp"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Chase.gd" id="12_urg2y"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Attack.gd" id="13_lapb2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xjhv5"]
 shader = ExtResource("2_aj3sp")
@@ -24,8 +26,8 @@ size = Vector2(14, 40)
 radius = 7.0
 height = 40.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tee8m"]
-size = Vector2(46.5, 20)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tvax3"]
+size = Vector2(40, 20)
 
 [node name="Skeleton" type="CharacterBody2D" node_paths=PackedStringArray("health_component")]
 collision_layer = 2
@@ -73,10 +75,14 @@ position = Vector2(0, 6)
 shape = SubResource("CapsuleShape2D_5cayk")
 
 [node name="HitboxComponent" parent="." instance=ExtResource("7_alkru")]
+position = Vector2(17, 5)
+collision_layer = 96
+collision_mask = 96
+damage_stats = ExtResource("2_a3iad")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-position = Vector2(30, 4)
-shape = SubResource("RectangleShape2D_tee8m")
+position = Vector2(10, 0)
+shape = SubResource("RectangleShape2D_tvax3")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("9_s5w75")
@@ -94,6 +100,22 @@ script = ExtResource("11_qnsjp")
 enemy = NodePath("../..")
 sprite = NodePath("../../AnimatedSprite2D")
 
+[node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "navigation_agent")]
+script = ExtResource("12_urg2y")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+navigation_agent = NodePath("../../NavigationAgent2D")
+
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "attack_cooldown", "hitbox")]
+script = ExtResource("13_lapb2")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+attack_cooldown = NodePath("../../Timers/AttackCooldownTimer")
+hitbox = NodePath("../../HitboxComponent")
+
 [node name="Timers" type="Node" parent="."]
 
 [node name="PatrolCycleTimer" type="Timer" parent="Timers"]
+
+[node name="AttackCooldownTimer" type="Timer" parent="Timers"]
+wait_time = 3.0

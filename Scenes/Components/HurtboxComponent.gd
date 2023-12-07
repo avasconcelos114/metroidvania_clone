@@ -26,5 +26,5 @@ func _on_area_exited(area):
 
 func receive_hit(damage):
 	if health_component.has_health_remaining():
-		health_component.take_damage(damage)
+		health_component.take_damage(damage - armor_stats.armor)
 		emit_signal("ReceivedHit", hit_direction)
