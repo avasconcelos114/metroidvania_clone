@@ -21,7 +21,7 @@ func _on_area_entered(area):
 			area.SendAttack.connect(receive_hit)
 
 func _on_area_exited(area):
-	if area is HitboxComponent:
+	if area is HitboxComponent and area.SendAttack.is_connected(receive_hit):
 		area.SendAttack.disconnect(receive_hit)
 
 func receive_hit(damage):

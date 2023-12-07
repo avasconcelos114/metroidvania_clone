@@ -10,9 +10,15 @@ var is_moving = false
 func enter_state():
 	# Randomize patrol duration by 1 sec
 	patrol_timer.start()
-	patrol_timer.timeout.connect(patrol_cycle)
-	navigation_agent.velocity_computed.connect(set_enemy_velocity)
-	enemy.health_component.DiedEvent.connect(transition_to_death)
+	# Connect to patrol cycle events
+	if not patrol_timer.timeout.is_connected(patrol_cycle):
+		patrol_timer.timeout.connect(patrol_cycle)
+	# Connect to nav agent pathfinding event 
+	if not navigation_agent.velocity_computed.is_connected(set_enemy_velocity):
+		navigation_agent.velocity_computed.connect(set_enemy_velocity)
+	# Connect to enemy death event
+	if not enemy.health_component.DiedEvent.is_connected(transition_to_death):
+		enemy.health_component.DiedEvent.connect(transition_to_death)
 
 func exit_state():
 	patrol_timer.stop()
@@ -28,7 +34,6 @@ func physics_update(delta):
 	var should_aggro = distance.length() < enemy.aggro_distance
 	if should_aggro:
 		Transitioned.emit(self, "chase")
-
 
 func handle_movement():
 	if is_moving and not navigation_agent.is_navigation_finished():

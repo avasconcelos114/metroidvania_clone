@@ -84,7 +84,7 @@ func handle_character_direction():
 	if last_direction < 0:
 		$AnimatedSprite2D.set_flip_h(true)
 		$WallHugParticles.position.x = -12
-		$HitboxComponent.position.x = -58
+		$HitboxComponent.position.x = -46
 	else:
 		$AnimatedSprite2D.set_flip_h(false)
 		$WallHugParticles.position.x = 12

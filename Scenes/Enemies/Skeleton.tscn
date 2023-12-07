@@ -36,12 +36,14 @@ slide_on_ceiling = false
 floor_constant_speed = true
 script = ExtResource("1_cfg7h")
 health_component = NodePath("HealthComponent")
+attack_range = 40
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_xjhv5")
 position = Vector2(-4, -12)
 scale = Vector2(0.8, 0.8)
 sprite_frames = ExtResource("1_n8q0g")
+animation = &"death"
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -118,4 +120,4 @@ hitbox = NodePath("../../HitboxComponent")
 [node name="PatrolCycleTimer" type="Timer" parent="Timers"]
 
 [node name="AttackCooldownTimer" type="Timer" parent="Timers"]
-wait_time = 3.0
+wait_time = 1.2

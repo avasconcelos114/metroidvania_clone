@@ -52,7 +52,7 @@ radius = 9.0
 height = 48.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sftli"]
-size = Vector2(57, 20)
+size = Vector2(45, 20)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 9
@@ -62,7 +62,7 @@ floor_max_angle = 1.0472
 platform_wall_layers = 4
 script = ExtResource("1_phk7p")
 ACCELERATION = 15.0
-HIT_KNOCKBACK = 500
+HIT_KNOCKBACK = 200
 dash_unlocked = true
 wall_slide_unlocked = true
 
@@ -101,13 +101,13 @@ position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_4lglj")
 
 [node name="HitboxComponent" parent="." instance=ExtResource("6_kn5cg")]
-position = Vector2(19, 9)
+position = Vector2(20, 9)
 collision_layer = 144
 collision_mask = 144
 damage_stats = ExtResource("6_51172")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-position = Vector2(20, 2.08165e-12)
+position = Vector2(13.25, 0)
 shape = SubResource("RectangleShape2D_sftli")
 
 [node name="StateMachine" type="Node" parent="."]
@@ -127,9 +127,8 @@ script = ExtResource("13_inwh3")
 slipthrough_timer = NodePath("../../Timers/SlipthroughTimer")
 player = NodePath("../..")
 
-[node name="Attacking" type="Node" parent="StateMachine" node_paths=PackedStringArray("attack_reset_timer", "hitbox_component", "player")]
+[node name="Attacking" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox_component", "player")]
 script = ExtResource("14_va5wh")
-attack_reset_timer = NodePath("../../Timers/AttackResetTimer")
 hitbox_component = NodePath("../../HitboxComponent")
 player = NodePath("../..")
 

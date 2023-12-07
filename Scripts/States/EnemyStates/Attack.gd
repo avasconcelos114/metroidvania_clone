@@ -9,8 +9,15 @@ func _ready():
 	attack_cooldown.timeout.connect(attack)
 
 func enter_state():
-	attack()
+	sprite.play("default")
 	attack_cooldown.start()
+	if not enemy.health_component.DiedEvent.is_connected(transition_to_death):
+		enemy.health_component.DiedEvent.connect(transition_to_death)
+
+func transition_to_death():
+	attack_cooldown.stop()
+	sprite.stop()
+	Transitioned.emit(self, "death")
 
 func exit_state():
 	attack_cooldown.stop()
