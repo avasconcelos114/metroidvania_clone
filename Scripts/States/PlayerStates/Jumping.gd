@@ -23,6 +23,7 @@ func physics_update(delta):
 func enter_state():
 	player.sprite.play("jump")
 	perform_jump()
+	super.enter_state()
 
 func perform_jump():
 	player.velocity.y = player.JUMP_VELOCITY

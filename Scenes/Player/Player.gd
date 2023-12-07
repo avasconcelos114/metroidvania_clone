@@ -12,6 +12,7 @@ var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Components
 @onready var sprite = $AnimatedSprite2D
+@onready var health_component = $HealthComponent
 
 # Movement skills config
 @export var dash_unlocked = false
@@ -43,6 +44,9 @@ func _ready():
 	$Timers/DashCooldownTimer.timeout.connect(enable_dashing)
 	$HurtboxComponent.ReceivedHit.connect(receive_hit_effect)
 	$HealthComponent.DiedEvent.connect(handle_player_death)
+	
+	# Setting first state after other components initialized
+	$StateMachine.set_initial_state($StateMachine/Idle)
 
 func receive_hit_effect(direction):
 	if $HealthComponent.has_health_remaining():

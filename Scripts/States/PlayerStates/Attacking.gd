@@ -27,6 +27,7 @@ func physics_update(delta):
 func enter_state():
 	current_attack_animation = 0
 	handle_attack()
+	super.enter_state()
 
 func exit_state():
 	attack_reset_timer.stop()

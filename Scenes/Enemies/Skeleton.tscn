@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cp48ek7127bta"]
+[gd_scene load_steps=16 format=3 uid="uid://cp48ek7127bta"]
 
 [ext_resource type="Script" path="res://Scenes/Enemies/Skeleton.gd" id="1_cfg7h"]
 [ext_resource type="SpriteFrames" uid="uid://dbreytf8dgkc4" path="res://Resources/Enemies/SkeletonFrames.tres" id="1_n8q0g"]
@@ -8,13 +8,17 @@
 [ext_resource type="Resource" uid="uid://bi6devtd46wre" path="res://Resources/Enemies/SkeletonArmorStats.tres" id="3_rorcj"]
 [ext_resource type="PackedScene" uid="uid://cd2tlp65h22wn" path="res://Scenes/Components/HurtboxComponent.tscn" id="3_tac10"]
 [ext_resource type="PackedScene" uid="uid://bco2bxp5k2mng" path="res://Scenes/Components/HitboxComponent.tscn" id="7_alkru"]
-[ext_resource type="Script" path="res://Scenes/States/StateMachine.gd" id="9_1ur36"]
-[ext_resource type="Script" path="res://Scenes/States/EnemyStates/Idle.gd" id="10_pp1hi"]
+[ext_resource type="Script" path="res://Scripts/States/StateMachine.gd" id="9_s5w75"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Idle.gd" id="10_1e7gl"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Death.gd" id="11_qnsjp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xjhv5"]
 shader = ExtResource("2_aj3sp")
 shader_parameter/active = false
 shader_parameter/tint = Color(0.796078, 0.0392157, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wgdn1"]
+size = Vector2(14, 40)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5cayk"]
 radius = 7.0
@@ -23,10 +27,13 @@ height = 40.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tee8m"]
 size = Vector2(46.5, 20)
 
-[node name="Skeleton" type="CharacterBody2D"]
+[node name="Skeleton" type="CharacterBody2D" node_paths=PackedStringArray("health_component")]
 collision_layer = 2
 collision_mask = 2
+slide_on_ceiling = false
+floor_constant_speed = true
 script = ExtResource("1_cfg7h")
+health_component = NodePath("HealthComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_xjhv5")
@@ -37,7 +44,7 @@ autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 6)
-shape = SubResource("CapsuleShape2D_5cayk")
+shape = SubResource("RectangleShape2D_wgdn1")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
@@ -72,17 +79,21 @@ position = Vector2(30, 4)
 shape = SubResource("RectangleShape2D_tee8m")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-script = ExtResource("9_1ur36")
+script = ExtResource("9_s5w75")
 initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "navigation_agent", "patrol_timer")]
-script = ExtResource("10_pp1hi")
+script = ExtResource("10_1e7gl")
 enemy = NodePath("../..")
 sprite = NodePath("../../AnimatedSprite2D")
 navigation_agent = NodePath("../../NavigationAgent2D")
 patrol_timer = NodePath("../../Timers/PatrolCycleTimer")
 
+[node name="Death" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite")]
+script = ExtResource("11_qnsjp")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+
 [node name="Timers" type="Node" parent="."]
 
 [node name="PatrolCycleTimer" type="Timer" parent="Timers"]
-wait_time = 3.0

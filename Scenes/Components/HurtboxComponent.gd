@@ -25,8 +25,6 @@ func _on_area_exited(area):
 		area.SendAttack.disconnect(receive_hit)
 
 func receive_hit(damage):
-	print("Receiving hit")
 	if health_component.has_health_remaining():
-		print("taking damage")
 		health_component.take_damage(damage)
 		emit_signal("ReceivedHit", hit_direction)

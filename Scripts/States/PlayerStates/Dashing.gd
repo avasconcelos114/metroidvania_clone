@@ -16,6 +16,7 @@ func enter_state():
 	ghost_timer.start()
 	dash_timer.start()
 	player.disable_dashing()
+	super.enter_state()
 
 func physics_update(_delta):
 	if player.movement_input != 0:

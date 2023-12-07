@@ -9,14 +9,13 @@ func physics_update(delta):
 	player_movement()
 	player.velocity.y = gravity_value * Global.time * gravity_modifier
 
-	#if player.jump_input_actuation:
-	#	Transitioned.emit(self, "jumping")
 	if player.is_on_floor() or not player.is_on_wall_only():
 		Transitioned.emit(self, "idle")
 
 func enter_state():
 	player.is_wall_sliding = true
 	player.sprite.play("dash_forwards")
+	super.enter_state()
 
 func exit_state():
 	player.is_wall_sliding = false

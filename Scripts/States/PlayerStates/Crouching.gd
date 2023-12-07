@@ -15,6 +15,7 @@ func physics_update(delta):
 
 func enter_state():
 	player.sprite.play("crouch")
+	super.enter_state()
 
 func disable_slipthrough_collision():
 	player.set_collision_layer_value(4, false)
