@@ -1,6 +1,7 @@
 extends PlayerState
 
 @export var WallSlideCooldown: Timer
+@export var jump_sound: AudioStreamPlayer
 
 func physics_update(delta):
 	player.gravity(delta)
@@ -10,6 +11,7 @@ func physics_update(delta):
 		player.sprite.stop()
 		Transitioned.emit(self, "attacking")
 	elif player.is_on_floor():
+		jump_sound.play()
 		Transitioned.emit(self, "idle")
 	elif player.is_on_wall_only() and player.velocity.y > 0 and player.wall_slide_unlocked and WallSlideCooldown.is_stopped():
 		player.is_double_jumping = true

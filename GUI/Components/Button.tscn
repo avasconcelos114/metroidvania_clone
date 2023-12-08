@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bk6ymrli7soug"]
+
+[ext_resource type="Script" path="res://GUI/Components/Button.gd" id="1_2gyiq"]
+[ext_resource type="Texture2D" uid="uid://bmx8r3l5x0t7u" path="res://Assets/UI/Textures/Button.png" id="1_pxxoy"]
+[ext_resource type="Texture2D" uid="uid://cmb1bak2xeh5i" path="res://Assets/UI/Textures/ButtonPressed.png" id="2_bjxtl"]
+[ext_resource type="FontFile" uid="uid://cygxppur8u6t6" path="res://Assets/UI/Fonts/DungeonFont.ttf" id="3_el7hr"]
+
+[node name="Button" type="CenterContainer"]
+script = ExtResource("1_2gyiq")
+
+[node name="ButtonElement" type="TextureButton" parent="."]
+layout_mode = 2
+focus_previous = NodePath("../../../ButtonWrapper/CenterContainer/StartButton")
+texture_normal = ExtResource("1_pxxoy")
+texture_pressed = ExtResource("2_bjxtl")
+stretch_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 2
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_el7hr")
+theme_override_font_sizes/font_size = 19
+text = "Text
+"
+
+[connection signal="pressed" from="ButtonElement" to="." method="_on_button_element_pressed"]

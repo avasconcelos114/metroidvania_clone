@@ -10,13 +10,13 @@ func physics_update(delta):
 	if player.attack_input:
 		player.sprite.stop()
 		Transitioned.emit(self, "attacking")
-	if player.movement_input != 0:
+	elif player.movement_input != 0:
 		Transitioned.emit(self, "running")
-	if player.jump_input_actuation:
+	elif player.jump_input_actuation:
 		Transitioned.emit(self, "jumping")
-	if player.crouch_input:
+	elif player.crouch_input:
 		Transitioned.emit(self, "crouching")
-	if player.dash_input_actuation and player.dash_unlocked and player.can_dash:
+	elif player.dash_input_actuation and player.dash_unlocked and player.can_dash:
 		Transitioned.emit(self, "dashing")
 
 func enter_state():

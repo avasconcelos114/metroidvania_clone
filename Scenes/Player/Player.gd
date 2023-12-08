@@ -46,6 +46,7 @@ func _ready():
 
 func receive_hit_effect(direction):
 	if $HealthComponent.has_health_remaining():
+		$HurtSound.play()
 		$BloodSplatter.emitting = true
 		$BloodSplatter.process_material.set("direction:x", direction.x)
 		velocity.x = HIT_KNOCKBACK if direction.x > 0 else -HIT_KNOCKBACK
@@ -54,6 +55,7 @@ func receive_hit_effect(direction):
 		$BloodSplatter.emitting = false
 
 func handle_player_death():
+	$DeathSound.play()
 	$BloodSplatter.emitting = true
 	$BloodSplatter.position.y = 20
 	$BloodSplatter.process_material.set("direction", Vector2(1, -10))
@@ -64,7 +66,7 @@ func handle_player_death():
 func _physics_process(_delta):
 	if not $HealthComponent.has_died:
 		player_input()
-		$WallHugParticles.emitting = is_wall_sliding
+		$WallSlideParticles.emitting = is_wall_sliding
 		handle_character_direction()
 	else:
 		velocity.x = 0
@@ -83,12 +85,12 @@ func disable_dashing():
 func handle_character_direction():
 	if last_direction < 0:
 		$AnimatedSprite2D.set_flip_h(true)
-		$WallHugParticles.position.x = -12
-		$HitboxComponent.position.x = -46
+		$WallSlideParticles.position.x = -12
+		$HitboxComponent.position.x = -29
 	else:
 		$AnimatedSprite2D.set_flip_h(false)
-		$WallHugParticles.position.x = 12
-		$HitboxComponent.position.x = 20
+		$WallSlideParticles.position.x = 12
+		$HitboxComponent.position.x = 29
 
 func player_input():
 	# Attacks

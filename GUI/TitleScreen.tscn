@@ -1,4 +1,9 @@
-[gd_scene format=3 uid="uid://ctr7ju0g4dwt"]
+[gd_scene load_steps=5 format=3 uid="uid://ctr7ju0g4dwt"]
+
+[ext_resource type="Script" path="res://GUI/TitleScreen.gd" id="1_rc2vs"]
+[ext_resource type="FontFile" uid="uid://cygxppur8u6t6" path="res://Assets/UI/Fonts/DungeonFont.ttf" id="2_gt6d0"]
+[ext_resource type="FontFile" uid="uid://bebmb4xm6awfc" path="res://Assets/UI/Fonts/m5x7.ttf" id="3_40ohx"]
+[ext_resource type="PackedScene" uid="uid://bk6ymrli7soug" path="res://GUI/Components/Button.tscn" id="4_bfaxy"]
 
 [node name="TitleScreen" type="Control"]
 layout_mode = 3
@@ -9,20 +14,62 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_rc2vs")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.466667, 0.466667, 0.466667, 0.533333)
+color = Color(0.12549, 0.12549, 0.12549, 0.905882)
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+[node name="CenterContainer" type="CenterContainer" parent="ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CenterContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.658824, 0.360784, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_gt6d0")
+theme_override_font_sizes/font_size = 45
+text = "Not Another Metroidvania"
+
+[node name="Subtitle" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_40ohx")
+theme_override_font_sizes/font_size = 18
+text = "This one is different I swear"
+horizontal_alignment = 1
+
+[node name="ButtonWrapper" type="MarginContainer" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="StartButton" parent="ColorRect/CenterContainer/VBoxContainer/ButtonWrapper" instance=ExtResource("4_bfaxy")]
+layout_mode = 2
+text = "Play"
+
+[node name="ButtonWrapper2" type="MarginContainer" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+
+[node name="QuitButton" parent="ColorRect/CenterContainer/VBoxContainer/ButtonWrapper2" instance=ExtResource("4_bfaxy")]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="OnPressed" from="ColorRect/CenterContainer/VBoxContainer/ButtonWrapper/StartButton" to="." method="_on_start_button_on_pressed"]
+[connection signal="OnPressed" from="ColorRect/CenterContainer/VBoxContainer/ButtonWrapper2/QuitButton" to="." method="_on_quit_button_on_pressed"]

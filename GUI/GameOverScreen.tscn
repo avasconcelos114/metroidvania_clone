@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5kuekhj6trst"]
+[gd_scene load_steps=5 format=3 uid="uid://c5kuekhj6trst"]
 
 [ext_resource type="FontFile" uid="uid://cygxppur8u6t6" path="res://Assets/UI/Fonts/DungeonFont.ttf" id="1_de2yx"]
 [ext_resource type="Script" path="res://GUI/GameOverScreen.gd" id="1_vnhqd"]
-[ext_resource type="Texture2D" uid="uid://bmx8r3l5x0t7u" path="res://Assets/UI/Textures/Button.png" id="2_l3y23"]
+[ext_resource type="FontFile" uid="uid://bebmb4xm6awfc" path="res://Assets/UI/Fonts/m5x7.ttf" id="3_i6x1o"]
+[ext_resource type="PackedScene" uid="uid://bk6ymrli7soug" path="res://GUI/Components/Button.tscn" id="4_py6a1"]
 
 [node name="GameOverScreen" type="Control"]
 layout_mode = 3
@@ -37,7 +38,7 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CenterContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+[node name="GameOverTitle" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.658824, 0.360784, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -45,28 +46,21 @@ theme_override_fonts/font = ExtResource("1_de2yx")
 theme_override_font_sizes/font_size = 45
 text = "Game Over"
 
+[node name="GameOverSubtitle" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_i6x1o")
+theme_override_font_sizes/font_size = 18
+text = "Rest not thy sword, knight."
+horizontal_alignment = 1
+
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = 20
 
-[node name="CenterContainer" type="CenterContainer" parent="ColorRect/CenterContainer/VBoxContainer/MarginContainer"]
+[node name="Button" parent="ColorRect/CenterContainer/VBoxContainer/MarginContainer" instance=ExtResource("4_py6a1")]
 layout_mode = 2
+text = "Reascend"
 
-[node name="TextureButton" type="TextureButton" parent="ColorRect/CenterContainer/VBoxContainer/MarginContainer/CenterContainer"]
-layout_mode = 2
-texture_normal = ExtResource("2_l3y23")
-stretch_mode = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/CenterContainer/VBoxContainer/MarginContainer/CenterContainer"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_top = 2
-
-[node name="Label" type="Label" parent="ColorRect/CenterContainer/VBoxContainer/MarginContainer/CenterContainer/MarginContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_de2yx")
-theme_override_font_sizes/font_size = 19
-text = "Try Again"
-
-[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/MarginContainer/CenterContainer/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="OnPressed" from="ColorRect/CenterContainer/VBoxContainer/MarginContainer/Button" to="." method="_on_button_on_pressed"]

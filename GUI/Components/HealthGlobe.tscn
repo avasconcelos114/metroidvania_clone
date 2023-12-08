@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://dt2n2v1urek4h"]
+
+[ext_resource type="Script" path="res://GUI/Components/HealthGlobe.gd" id="1_crb5m"]
+[ext_resource type="Texture2D" uid="uid://cycv2tw8myhi5" path="res://Assets/UI/Textures/HealthGlobe.png" id="1_scbe5"]
+[ext_resource type="FontFile" uid="uid://cygxppur8u6t6" path="res://Assets/UI/Fonts/DungeonFont.ttf" id="2_2jk1b"]
+[ext_resource type="AudioStream" uid="uid://rrbmwit8g5o2" path="res://Assets/SFX/Player/low_hp_sound.mp3" id="4_ew1kk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_id65t"]
+font = ExtResource("2_2jk1b")
+font_size = 48
+
+[node name="HealthGlobe" type="CenterContainer"]
+script = ExtResource("1_crb5m")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture = ExtResource("1_scbe5")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 1
+
+[node name="HealthLabel" type="Label" parent="MarginContainer"]
+layout_mode = 2
+text = "70"
+label_settings = SubResource("LabelSettings_id65t")
+
+[node name="LowHPSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ew1kk")
+volume_db = 20.0
+mix_target = 1

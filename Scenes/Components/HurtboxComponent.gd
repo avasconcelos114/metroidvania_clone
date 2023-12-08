@@ -5,6 +5,7 @@ signal ReceivedHit
 
 @export var health_component: HealthComponent
 @export var armor_stats: ArmorStats
+@export var is_enabled := true
 
 var hit_direction = 0
 
@@ -25,6 +26,6 @@ func _on_area_exited(area):
 		area.SendAttack.disconnect(receive_hit)
 
 func receive_hit(damage):
-	if health_component.has_health_remaining():
+	if health_component.has_health_remaining() and is_enabled:
 		health_component.take_damage(damage - armor_stats.armor)
 		emit_signal("ReceivedHit", hit_direction)

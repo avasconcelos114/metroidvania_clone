@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://smpi71pmiqut"]
+[gd_scene load_steps=4 format=3 uid="uid://smpi71pmiqut"]
 
 [ext_resource type="Script" path="res://root.gd" id="1_wl3fy"]
 [ext_resource type="PackedScene" uid="uid://c5kuekhj6trst" path="res://GUI/GameOverScreen.tscn" id="2_6w7o5"]
+[ext_resource type="PackedScene" uid="uid://ctr7ju0g4dwt" path="res://GUI/TitleScreen.tscn" id="3_naocj"]
 
 [node name="root" type="Node2D"]
 script = ExtResource("1_wl3fy")
@@ -11,4 +12,8 @@ script = ExtResource("1_wl3fy")
 [node name="GameOverScreen" parent="GUI" instance=ExtResource("2_6w7o5")]
 visible = false
 
+[node name="TitleScreen" parent="GUI" instance=ExtResource("3_naocj")]
+
 [connection signal="ReloadLevelPressed" from="GUI/GameOverScreen" to="." method="_on_game_over_screen_reload_level_pressed"]
+[connection signal="QuitButtonPressed" from="GUI/TitleScreen" to="." method="_on_title_screen_quit_button_pressed"]
+[connection signal="StartButtonPressed" from="GUI/TitleScreen" to="." method="_on_title_screen_start_button_pressed"]

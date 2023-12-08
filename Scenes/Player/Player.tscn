@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://uwxfr20k1mn3"]
+[gd_scene load_steps=32 format=3 uid="uid://uwxfr20k1mn3"]
 
 [ext_resource type="Script" path="res://Scenes/Player/Player.gd" id="1_phk7p"]
 [ext_resource type="SpriteFrames" uid="uid://d3yqus1in2jsl" path="res://Resources/Player/PlayerSpriteFrames.tres" id="2_1yc73"]
@@ -18,10 +18,16 @@
 [ext_resource type="Script" path="res://Scripts/States/PlayerStates/WallSlide.gd" id="16_j7tn0"]
 [ext_resource type="PackedScene" uid="uid://cnkjd4vx6wkpa" path="res://Scenes/Effects/BloodSplatter.tscn" id="17_g44lh"]
 [ext_resource type="Script" path="res://Scripts/States/PlayerStates/Death.gd" id="17_vt5w1"]
+[ext_resource type="AudioStream" uid="uid://cvymb4w8ynkjw" path="res://Assets/SFX/Player/death_sound.mp3" id="19_tnmoy"]
+[ext_resource type="AudioStream" uid="uid://lwtdxfenww38" path="res://Assets/SFX/Player/attack_sound.mp3" id="20_mb573"]
+[ext_resource type="AudioStream" uid="uid://bx61dab7viarl" path="res://Assets/SFX/Player/hurt_sound.mp3" id="21_ttcir"]
+[ext_resource type="AudioStream" uid="uid://7p0pveiocvg1" path="res://Assets/SFX/Player/jump_landing_sound.wav" id="22_2yrr0"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rnpju"]
-radius = 9.0
-height = 48.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npu37"]
+size = Vector2(18, 45)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hdema"]
+size = Vector2(20, 25)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ht8cj"]
 shader = ExtResource("2_i603l")
@@ -49,10 +55,14 @@ color_ramp = SubResource("GradientTexture1D_6w5v4")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4lglj"]
 radius = 9.0
-height = 48.0
+height = 46.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q67mq"]
+radius = 9.0
+height = 36.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sftli"]
-size = Vector2(45, 20)
+size = Vector2(40, 34)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 9
@@ -66,20 +76,26 @@ HIT_KNOCKBACK = 200
 dash_unlocked = true
 wall_slide_unlocked = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 8)
-shape = SubResource("CapsuleShape2D_rnpju")
+[node name="PhysicsCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7.5)
+shape = SubResource("RectangleShape2D_npu37")
+
+[node name="PhysicsCollisionCrouch" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 17.5)
+shape = SubResource("RectangleShape2D_hdema")
+disabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_ht8cj")
 sprite_frames = ExtResource("2_1yc73")
-animation = &"death"
+animation = &"crouch"
 autoplay = "default"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
-[node name="WallHugParticles" type="GPUParticles2D" parent="."]
+[node name="WallSlideParticles" type="GPUParticles2D" parent="."]
 position = Vector2(12, 0)
 emitting = false
 amount = 15
@@ -89,6 +105,7 @@ speed_scale = 0.6
 explosiveness = 0.15
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_cgp6e")]
+max_health = 60
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_lexje")]
 collision_layer = 96
@@ -100,36 +117,53 @@ armor_stats = ExtResource("5_e5sch")
 position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_4lglj")
 
+[node name="HurtboxComponentCrouch" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_lexje")]
+collision_layer = 96
+collision_mask = 96
+health_component = NodePath("../HealthComponent")
+armor_stats = ExtResource("5_e5sch")
+is_enabled = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponentCrouch"]
+position = Vector2(0, 13)
+shape = SubResource("CapsuleShape2D_q67mq")
+
 [node name="HitboxComponent" parent="." instance=ExtResource("6_kn5cg")]
-position = Vector2(20, 9)
+position = Vector2(29, 8)
 collision_layer = 144
 collision_mask = 144
 damage_stats = ExtResource("6_51172")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-position = Vector2(13.25, 0)
 shape = SubResource("RectangleShape2D_sftli")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("9_omggr")
 
-[node name="Running" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
+[node name="Running" type="Node" parent="StateMachine" node_paths=PackedStringArray("WallSlideCooldown", "player")]
 script = ExtResource("11_upoem")
-player = NodePath("../..")
-
-[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("WallSlideCooldown", "player")]
-script = ExtResource("12_5c4ve")
 WallSlideCooldown = NodePath("../../Timers/WallSlideCooldownTimer")
 player = NodePath("../..")
 
-[node name="Crouching" type="Node" parent="StateMachine" node_paths=PackedStringArray("slipthrough_timer", "player")]
-script = ExtResource("13_inwh3")
-slipthrough_timer = NodePath("../../Timers/SlipthroughTimer")
+[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("WallSlideCooldown", "jump_sound", "player")]
+script = ExtResource("12_5c4ve")
+WallSlideCooldown = NodePath("../../Timers/WallSlideCooldownTimer")
+jump_sound = NodePath("../../JumpLandingSound")
 player = NodePath("../..")
 
-[node name="Attacking" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox_component", "player")]
+[node name="Crouching" type="Node" parent="StateMachine" node_paths=PackedStringArray("slipthrough_timer", "standing_hurtbox", "crouching_hurtbox", "standing_collision", "crouching_collision", "player")]
+script = ExtResource("13_inwh3")
+slipthrough_timer = NodePath("../../Timers/SlipthroughTimer")
+standing_hurtbox = NodePath("../../HurtboxComponent")
+crouching_hurtbox = NodePath("../../HurtboxComponentCrouch")
+standing_collision = NodePath("../../PhysicsCollision")
+crouching_collision = NodePath("../../PhysicsCollisionCrouch")
+player = NodePath("../..")
+
+[node name="Attacking" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox_component", "attack_sound", "player")]
 script = ExtResource("14_va5wh")
 hitbox_component = NodePath("../../HitboxComponent")
+attack_sound = NodePath("../../AttackSound")
 player = NodePath("../..")
 
 [node name="Dashing" type="Node" parent="StateMachine" node_paths=PackedStringArray("ghost_timer", "dash_timer", "cooldown_timer", "player")]
@@ -180,3 +214,16 @@ one_shot = true
 [node name="BloodSplatter" parent="." instance=ExtResource("17_g44lh")]
 position = Vector2(5, 2.08165e-12)
 emitting = false
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_tnmoy")
+
+[node name="AttackSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("20_mb573")
+
+[node name="HurtSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("21_ttcir")
+
+[node name="JumpLandingSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("22_2yrr0")
+volume_db = -20.0

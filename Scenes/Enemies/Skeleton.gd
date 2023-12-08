@@ -1,8 +1,15 @@
 extends BaseEnemy
 
+@onready var hurtbox_component = $HurtboxComponent
+@onready var autoattack_hitbox = $AutoattackHitbox
+@onready var hitbox_component = $HitboxComponent
+@onready var collision_box = $CollisionShape2D
+@onready var sprite = $AnimatedSprite2D
+@onready var hit_sound = $HitSound
+
 func _ready():
 	health_component.DiedEvent.connect(handle_death)
-	$HurtboxComponent.ReceivedHit.connect(receive_hit)
+	hurtbox_component.ReceivedHit.connect(receive_hit)
 
 func _physics_process(delta):
 	super.gravity(delta)
@@ -13,17 +20,19 @@ func _physics_process(delta):
 	move_and_slide()
 
 func handle_death():
-	$AutoattackHitbox.should_autoattack = false
+	autoattack_hitbox.should_autoattack = false
+	collision_box.disabled = true
 	await get_tree().create_timer(5).timeout
 	queue_free()
 
 func receive_hit(_direction):
-	Global.show_damage_flash($AnimatedSprite2D)
+	Global.show_damage_flash(self.sprite)
+	hit_sound.play()
 
 func handle_character_direction():
 	if last_direction < 0:
-		$HitboxComponent.position.x = -30
-		$AnimatedSprite2D.set_flip_h(true)
+		hitbox_component.position.x = -31
+		sprite.set_flip_h(true)
 	else:
-		$HitboxComponent.position.x = 30
-		$AnimatedSprite2D.set_flip_h(false)
+		hitbox_component.position.x = 31
+		sprite.set_flip_h(false)

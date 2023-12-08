@@ -1,0 +1,143 @@
+[gd_scene load_steps=21 format=3 uid="uid://dqp2b1a7x8pcg"]
+
+[ext_resource type="Script" path="res://Scenes/Enemies/Goblin.gd" id="1_11icx"]
+[ext_resource type="Shader" path="res://Scenes/Effects/HitFlash.gdshader" id="2_oj1nu"]
+[ext_resource type="SpriteFrames" uid="uid://bqn7yhavw6cs5" path="res://Resources/Enemies/Goblin/GoblinFrames.tres" id="3_uoyur"]
+[ext_resource type="PackedScene" uid="uid://c0f7n0y0tqlul" path="res://Scenes/Components/HealthComponent.tscn" id="4_lyx6u"]
+[ext_resource type="PackedScene" uid="uid://cd2tlp65h22wn" path="res://Scenes/Components/HurtboxComponent.tscn" id="5_h2vc6"]
+[ext_resource type="Resource" uid="uid://dtaj8de404u6b" path="res://Resources/Enemies/Goblin/GoblinArmorStats.tres" id="6_wsk42"]
+[ext_resource type="PackedScene" uid="uid://bco2bxp5k2mng" path="res://Scenes/Components/HitboxComponent.tscn" id="7_4awli"]
+[ext_resource type="Resource" uid="uid://bkxrg4wd1oqvk" path="res://Resources/Enemies/Goblin/GoblinDamageStats.tres" id="8_sbsou"]
+[ext_resource type="Script" path="res://Scripts/States/StateMachine.gd" id="9_of6hq"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Idle.gd" id="10_5lp2w"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Death.gd" id="11_ayy1j"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Chase.gd" id="12_7clgk"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Attack.gd" id="13_eygol"]
+[ext_resource type="PackedScene" uid="uid://cnkjd4vx6wkpa" path="res://Scenes/Effects/BloodSplatter.tscn" id="14_ktsyt"]
+[ext_resource type="AudioStream" uid="uid://pbhbka10w8bf" path="res://Assets/SFX/Enemies/Goblin/Goblin_Hit.mp3" id="15_uyj71"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xjhv5"]
+resource_local_to_scene = true
+shader = ExtResource("2_oj1nu")
+shader_parameter/active = false
+shader_parameter/tint = Color(0.796078, 0.0392157, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wgdn1"]
+size = Vector2(14, 28)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5cayk"]
+radius = 7.0
+height = 24.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tvax3"]
+size = Vector2(35, 22)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b1ots"]
+shader = ExtResource("2_oj1nu")
+shader_parameter/active = true
+shader_parameter/tint = Color(0.00784314, 0.360784, 0, 1)
+
+[node name="Goblin" type="CharacterBody2D" node_paths=PackedStringArray("health_component")]
+collision_layer = 2
+collision_mask = 2
+slide_on_ceiling = false
+floor_constant_speed = true
+script = ExtResource("1_11icx")
+health_component = NodePath("HealthComponent")
+aggro_distance = 180
+attack_range = 35
+speed = 70
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_xjhv5")
+position = Vector2(-1, -25)
+scale = Vector2(0.8, 0.8)
+sprite_frames = ExtResource("3_uoyur")
+animation = &"attack"
+autoplay = "default"
+frame = 5
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wgdn1")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_lyx6u")]
+max_health = 25
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_h2vc6")]
+collision_layer = 144
+collision_mask = 144
+health_component = NodePath("../HealthComponent")
+armor_stats = ExtResource("6_wsk42")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_5cayk")
+
+[node name="AutoattackHitbox" parent="." instance=ExtResource("7_4awli")]
+collision_layer = 96
+collision_mask = 96
+damage_stats = ExtResource("8_sbsou")
+should_autoattack = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="AutoattackHitbox"]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_5cayk")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("7_4awli")]
+position = Vector2(25, 1)
+collision_layer = 96
+collision_mask = 96
+damage_stats = ExtResource("8_sbsou")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_tvax3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("9_of6hq")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "navigation_agent", "patrol_timer")]
+script = ExtResource("10_5lp2w")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+navigation_agent = NodePath("../../NavigationAgent2D")
+patrol_timer = NodePath("../../Timers/PatrolCycleTimer")
+
+[node name="Death" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite")]
+script = ExtResource("11_ayy1j")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+
+[node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "navigation_agent")]
+script = ExtResource("12_7clgk")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+navigation_agent = NodePath("../../NavigationAgent2D")
+
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "attack_cooldown", "hitbox")]
+script = ExtResource("13_eygol")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+attack_cooldown = NodePath("../../Timers/AttackCooldownTimer")
+hitbox = NodePath("../../HitboxComponent")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="PatrolCycleTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
+
+[node name="AttackCooldownTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
+one_shot = true
+
+[node name="BloodSplatter" parent="." instance=ExtResource("14_ktsyt")]
+material = SubResource("ShaderMaterial_b1ots")
+position = Vector2(-6, -5)
+emitting = false
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_uyj71")

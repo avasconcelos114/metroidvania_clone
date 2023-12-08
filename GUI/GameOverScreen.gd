@@ -2,5 +2,5 @@ extends Control
 
 signal ReloadLevelPressed
 
-func _on_texture_button_pressed():
+func _on_button_on_pressed():
 	ReloadLevelPressed.emit()

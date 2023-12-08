@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://nk67maonyyef"]
+
+[ext_resource type="Script" path="res://GUI/IngameOverlay.gd" id="1_bs4qa"]
+[ext_resource type="PackedScene" uid="uid://dt2n2v1urek4h" path="res://GUI/Components/HealthGlobe.tscn" id="1_xccdj"]
+[ext_resource type="PackedScene" uid="uid://evaa0s55o5ot" path="res://GUI/Components/ManaCharge.tscn" id="2_k22nb"]
+
+[node name="IngameOverlay" type="MarginContainer"]
+offset_right = 70.0
+offset_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+script = ExtResource("1_bs4qa")
+
+[node name="PlayerStats" type="HBoxContainer" parent="."]
+layout_direction = 2
+layout_mode = 2
+
+[node name="HealthGlobe" parent="PlayerStats" instance=ExtResource("1_xccdj")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerStats"]
+layout_mode = 2
+theme_override_constants/margin_top = 3
+
+[node name="BoxContainer" type="BoxContainer" parent="PlayerStats/MarginContainer"]
+layout_mode = 2
+vertical = true
+
+[node name="ManaCharge" parent="PlayerStats/MarginContainer/BoxContainer" instance=ExtResource("2_k22nb")]
+layout_mode = 2

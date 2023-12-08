@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://evaa0s55o5ot"]
+
+[ext_resource type="Script" path="res://GUI/Components/ManaCharge.gd" id="1_wejd0"]
+[ext_resource type="Texture2D" uid="uid://dr2etnisyaess" path="res://Assets/UI/Textures/ManaCharge_Full.png" id="2_oqf8o"]
+
+[node name="ManaCharge" type="HBoxContainer"]
+offset_right = 8.0
+offset_bottom = 20.0
+script = ExtResource("1_wejd0")
+
+[node name="ManaCharge_1" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_oqf8o")
+
+[node name="ManaCharge_2" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_oqf8o")
+
+[node name="ManaCharge_3" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_oqf8o")
+
+[node name="ManaCharge_4" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_oqf8o")

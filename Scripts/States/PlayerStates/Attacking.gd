@@ -1,7 +1,7 @@
 extends PlayerState
 
 @export var hitbox_component: HitboxComponent
-
+@export var attack_sound: AudioStreamPlayer
 var attack_in_progress = true
 
 func physics_update(delta):
@@ -19,8 +19,8 @@ func enter_state():
 	super.enter_state()
 
 func handle_attack():
+	attack_sound.play()
 	var sprite = player.sprite as AnimatedSprite2D
-	# check if we have a valid queued attack
 	sprite.play("attack_1")
 	hitbox_component.attack()
 	await sprite.animation_finished

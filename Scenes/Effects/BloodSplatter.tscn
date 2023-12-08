@@ -26,5 +26,4 @@ collision_mode = 2
 amount = 80
 process_material = SubResource("ParticleProcessMaterial_g2l8t")
 speed_scale = 1.2
-trail_lifetime = 0.08
 trail_sections = 2
