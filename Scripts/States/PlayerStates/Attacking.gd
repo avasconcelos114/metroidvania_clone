@@ -26,7 +26,10 @@ func enter_state():
 	super.enter_state()
 
 func begin_attack():
-	player.sprite.play("attack")
+	if player.crouch_input:
+		player.sprite.play("crouch_attack")
+	else:
+		player.sprite.play("attack")
 	if not player.sprite.frame_changed.is_connected(process_attack):
 		player.sprite.frame_changed.connect(process_attack)
 

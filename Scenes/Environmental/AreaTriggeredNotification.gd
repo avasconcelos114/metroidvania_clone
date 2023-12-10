@@ -11,3 +11,4 @@ func _ready():
 func send_notification(body):
 	if body is Player:
 		notification.emit_signal("ShowTextSignal", message, duration)
+		queue_free()

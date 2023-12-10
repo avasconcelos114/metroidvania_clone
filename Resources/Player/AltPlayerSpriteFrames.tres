@@ -1,8 +1,9 @@
-[gd_resource type="SpriteFrames" load_steps=43 format=3 uid="uid://dmre6odlscx6g"]
+[gd_resource type="SpriteFrames" load_steps=47 format=3 uid="uid://dmre6odlscx6g"]
 
 [ext_resource type="Texture2D" uid="uid://b6h4hws1ilfgw" path="res://Assets/Sprites/Character/Alternate/gothic-hero-attack.png" id="1_vvn7b"]
 [ext_resource type="Texture2D" uid="uid://bwmmtwixxu0t1" path="res://Assets/Sprites/Character/Alternate/gothic-hero-crouch.png" id="2_c5fl2"]
 [ext_resource type="Texture2D" uid="uid://caxsu4dqlmo0v" path="res://Assets/Sprites/Character/Alternate/gothic-hero-run.png" id="3_cuj8j"]
+[ext_resource type="Texture2D" uid="uid://c7b3tfwvg58rq" path="res://Assets/Sprites/Character/Alternate/gothic-hero-crouch-slash.png" id="3_rjaj5"]
 [ext_resource type="Texture2D" uid="uid://tfw8qvbatdgy" path="res://Assets/Sprites/Character/Alternate/gothic-hero-hurt.png" id="4_m56oy"]
 [ext_resource type="Texture2D" uid="uid://dk3d5ed8jqgfu" path="res://Assets/Sprites/Character/Alternate/gothic-hero-idle.png" id="5_p23hn"]
 [ext_resource type="Texture2D" uid="uid://dxcvqbn3dxci4" path="res://Assets/Sprites/Character/Alternate/gothic-hero-jump.png" id="6_k2ack"]
@@ -42,6 +43,18 @@ region = Rect2(48, 0, 48, 48)
 [sub_resource type="AtlasTexture" id="AtlasTexture_kv56c"]
 atlas = ExtResource("2_c5fl2")
 region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bupb5"]
+atlas = ExtResource("3_rjaj5")
+region = Rect2(23, 0, 101, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1g6t"]
+atlas = ExtResource("3_rjaj5")
+region = Rect2(124, 0, 101, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxxtf"]
+atlas = ExtResource("3_rjaj5")
+region = Rect2(225, 0, 101, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ptv0f"]
 atlas = ExtResource("3_cuj8j")
@@ -189,6 +202,20 @@ animations = [{
 "loop": false,
 "name": &"crouch",
 "speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bupb5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1g6t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxxtf")
+}],
+"loop": false,
+"name": &"crouch_attack",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,

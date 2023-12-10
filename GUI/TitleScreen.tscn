@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctr7ju0g4dwt"]
+[gd_scene load_steps=6 format=3 uid="uid://ctr7ju0g4dwt"]
 
 [ext_resource type="Script" path="res://GUI/TitleScreen.gd" id="1_rc2vs"]
 [ext_resource type="FontFile" uid="uid://cygxppur8u6t6" path="res://Assets/UI/Fonts/DungeonFont.ttf" id="2_gt6d0"]
 [ext_resource type="FontFile" uid="uid://bebmb4xm6awfc" path="res://Assets/UI/Fonts/m5x7.ttf" id="3_40ohx"]
 [ext_resource type="PackedScene" uid="uid://bk6ymrli7soug" path="res://GUI/Components/Button.tscn" id="4_bfaxy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x5uq3"]
+font = ExtResource("2_gt6d0")
+font_size = 45
+font_color = Color(0.847059, 0.470588, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
 
 [node name="TitleScreen" type="Control"]
 layout_mode = 3
@@ -40,11 +47,8 @@ layout_mode = 2
 
 [node name="Title" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.658824, 0.360784, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("2_gt6d0")
-theme_override_font_sizes/font_size = 45
-text = "Not Another Metroidvania"
+text = "Not a Castlevania Clone™"
+label_settings = SubResource("LabelSettings_x5uq3")
 
 [node name="Subtitle" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2

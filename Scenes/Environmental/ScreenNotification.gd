@@ -3,7 +3,7 @@ class_name ScreenNotification
 
 signal ShowTextSignal
 
-@onready var label = $MarginContainer/VBoxContainer/PanelContainer/Label
+@export var label: Label
 
 func _ready():
 	ShowTextSignal.connect(show_text)

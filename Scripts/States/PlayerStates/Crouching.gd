@@ -16,6 +16,8 @@ func physics_update(delta):
 	if player.jump_input_actuation:
 		disable_slipthrough_collision()
 		slipthrough_timer.start()
+	if player.attack_input:
+		Transitioned.emit(self, "attacking")
 	if not player.crouch_input:
 		Transitioned.emit(self, "idle")
 

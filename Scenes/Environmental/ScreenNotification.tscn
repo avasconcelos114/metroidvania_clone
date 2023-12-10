@@ -11,9 +11,10 @@ font = ExtResource("2_cel3a")
 font_size = 36
 shadow_color = Color(0, 0, 0, 1)
 
-[node name="ScreenNotification" type="CanvasLayer"]
+[node name="ScreenNotification" type="CanvasLayer" node_paths=PackedStringArray("label")]
 visible = false
 script = ExtResource("1_iga6o")
+label = NodePath("MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Label")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 7
@@ -42,7 +43,12 @@ stretch_mode = 5
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_bottom = 7
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_cu0yg")
 horizontal_alignment = 1

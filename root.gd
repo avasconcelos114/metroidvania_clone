@@ -50,10 +50,10 @@ func _on_game_over_screen_reload_level_pressed():
 	current_level.queue_free()
 	current_player.queue_free()
 	overlay.queue_free()
-	load_level('tutorial', 'PlayerSpawnPoint')
+	load_level('town', 'PlayerSpawnPoint')
 
 func _on_title_screen_start_button_pressed():
-	load_level('tutorial', 'PlayerSpawnPoint')
+	load_level('town', 'PlayerSpawnPoint')
 	$GUI/TitleScreen.visible = false
 
 func _on_title_screen_quit_button_pressed():

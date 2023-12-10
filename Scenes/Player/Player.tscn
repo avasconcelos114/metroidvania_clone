@@ -97,13 +97,15 @@ disabled = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_ht8cj")
 sprite_frames = ExtResource("3_itlp0")
-animation = &"attack"
+animation = &"crouch_attack"
 autoplay = "default"
-frame = 5
+frame = 2
 frame_progress = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+zoom = Vector2(3, 3)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 
 [node name="WallSlideParticles" type="GPUParticles2D" parent="."]
 position = Vector2(12, 0)
