@@ -1,19 +1,35 @@
 extends Node2D
 
 @onready var player_scene = preload("res://Scenes/Player/Player.tscn")
-@onready var level_0_scene = preload("res://Levels/Level_00.tscn")
 @onready var ingame_overlay_scene = preload("res://GUI/IngameOverlay.tscn")
+
+var levels = {
+	'tutorial': preload("res://Levels/DungeonTutorial.tscn"),
+	'town': preload("res://Levels/Town.tscn")
+}
 
 var current_level
 var current_player
 var overlay
 
-func load_level():
-		# Load first level
-	current_level = level_0_scene.instantiate()
+func _ready():
+	Global.LevelChangedSignal.connect(change_level)
+
+func change_level(level_name, spawn_name):
+	current_level.queue_free()
+	current_player.queue_free()
+	overlay.queue_free()
+	load_level(level_name, spawn_name)
+
+func load_level(level_name: String, spawn_name: String):
+	if !level_name or not level_name in levels:
+		return
+
+	# Load first level
+	current_level = levels[level_name].instantiate()
 	add_child(current_level)
 	# Spawn in player
-	var spawn = current_level.find_child("PlayerSpawnPoint") as Marker2D
+	var spawn = current_level.find_child(spawn_name) as Marker2D
 	if spawn:
 		current_player = player_scene.instantiate()
 		current_player.global_position = spawn.global_position
@@ -34,10 +50,10 @@ func _on_game_over_screen_reload_level_pressed():
 	current_level.queue_free()
 	current_player.queue_free()
 	overlay.queue_free()
-	load_level()
+	load_level('tutorial', 'PlayerSpawnPoint')
 
 func _on_title_screen_start_button_pressed():
-	load_level()
+	load_level('tutorial', 'PlayerSpawnPoint')
 	$GUI/TitleScreen.visible = false
 
 func _on_title_screen_quit_button_pressed():

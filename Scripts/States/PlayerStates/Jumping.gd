@@ -16,16 +16,16 @@ func physics_update(delta):
 	elif player.is_on_wall_only() and player.velocity.y > 0 and player.wall_slide_unlocked and WallSlideCooldown.is_stopped():
 		player.is_double_jumping = true
 		Transitioned.emit(self, "wallslide")
-	elif player.jump_input_actuation and not player.is_double_jumping:
+	elif player.jump_input_actuation and player.double_jump_unlocked and not player.is_double_jumping:
 		perform_jump()
 		player.is_double_jumping = true
 	elif player.dash_input_actuation and player.dash_unlocked and player.can_dash:
 		Transitioned.emit(self, "dashing")
 
 func enter_state():
-	player.sprite.play("jump")
 	perform_jump()
 	super.enter_state()
 
 func perform_jump():
+	player.sprite.play("jump")
 	player.velocity.y = player.JUMP_VELOCITY

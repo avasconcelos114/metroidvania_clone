@@ -7,6 +7,7 @@ signal PlayerReceivedDamage
 # Game Signals
 signal GameOverSignal
 signal RestartFromCheckpointSignal
+signal LevelChangedSignal
 
 # Variables
 

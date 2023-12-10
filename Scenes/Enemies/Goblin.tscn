@@ -47,6 +47,7 @@ health_component = NodePath("HealthComponent")
 aggro_distance = 180
 attack_range = 35
 speed = 70
+attack_frame = 4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_xjhv5")
@@ -55,8 +56,6 @@ scale = Vector2(0.8, 0.8)
 sprite_frames = ExtResource("3_uoyur")
 animation = &"attack"
 autoplay = "default"
-frame = 5
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wgdn1")
@@ -136,7 +135,6 @@ one_shot = true
 
 [node name="BloodSplatter" parent="." instance=ExtResource("14_ktsyt")]
 material = SubResource("ShaderMaterial_b1ots")
-position = Vector2(-6, -5)
 emitting = false
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]

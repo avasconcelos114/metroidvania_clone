@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://xxteua3jv2xn"]
+
+[ext_resource type="Script" path="res://Scenes/Environmental/ScreenNotification.gd" id="1_iga6o"]
+[ext_resource type="FontFile" uid="uid://bebmb4xm6awfc" path="res://Assets/UI/Fonts/m5x7.ttf" id="2_cel3a"]
+[ext_resource type="Texture2D" uid="uid://b4h3grhg4bgud" path="res://Assets/UI/Textures/NotificationTop.png" id="2_flpob"]
+[ext_resource type="Texture2D" uid="uid://bi8sbw1k57xfb" path="res://Assets/UI/Textures/NotificationBottom.png" id="4_2c77g"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cu0yg"]
+resource_local_to_scene = true
+font = ExtResource("2_cel3a")
+font_size = 36
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="ScreenNotification" type="CanvasLayer"]
+visible = false
+script = ExtResource("1_iga6o")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -29.0
+offset_right = 64.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("2_flpob")
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_cu0yg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_2c77g")
+stretch_mode = 5

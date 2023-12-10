@@ -5,8 +5,8 @@ extends PlayerState
 @export var cooldown_timer: Timer
 
 @onready var dash_ghost = load("res://Scenes/Effects/DashGhost.tscn")
-@onready var dash_texture_forward = load("res://Assets/Sprites/Character/DashForward.png")
-@onready var dash_texture_backward = load("res://Assets/Sprites/Character/DashBackward.png")
+@onready var dash_texture_forward = load("res://Assets/Sprites/Character/Alternate/DashForward.png")
+@onready var dash_texture_backward = load("res://Assets/Sprites/Character/Alternate/DashBackward.png")
 
 func _ready():
 	ghost_timer.timeout.connect(instantiate_ghost)
@@ -21,10 +21,10 @@ func enter_state():
 func physics_update(_delta):
 	if player.movement_input != 0:
 		player.sprite.play("dash_forwards")
-		player.velocity.x = move_toward(player.velocity.x, player.movement_input * player.DASH_SPEED, player.ACCELERATION)
+		player.velocity.x = move_toward(player.velocity.x, player.movement_input * player.DASH_SPEED, player.DASH_ACCELERATION)
 	else:
 		player.sprite.play("dash_backwards")
-		player.velocity.x = move_toward(player.velocity.x, -player.last_direction * player.DASH_SPEED, player.ACCELERATION * 1.3)
+		player.velocity.x = move_toward(player.velocity.x, -player.last_direction * player.DASH_SPEED, player.DASH_ACCELERATION * 1.3)
 	player.velocity.y = 0
 
 func exit_state():

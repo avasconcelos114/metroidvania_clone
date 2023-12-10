@@ -21,7 +21,6 @@ func _physics_process(delta):
 
 func handle_death():
 	autoattack_hitbox.should_autoattack = false
-	collision_box.disabled = true
 	await get_tree().create_timer(5).timeout
 	queue_free()
 

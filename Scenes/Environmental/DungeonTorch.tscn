@@ -1,9 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://7t0euv14swue"]
+[gd_scene load_steps=13 format=3 uid="uid://7t0euv14swue"]
 
 [ext_resource type="Texture2D" uid="uid://prt5a1kb10v6" path="res://Assets/Sprites/Environment/burning_loop_1.png" id="2_8yw8c"]
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_tgkbk"]
-blend_mode = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tpuet"]
 atlas = ExtResource("2_8yw8c")
@@ -69,12 +66,12 @@ animations = [{
 "speed": 16.0
 }]
 
-[sub_resource type="Gradient" id="Gradient_2qtdg"]
+[sub_resource type="Gradient" id="Gradient_y34a3"]
 offsets = PackedFloat32Array(0, 0.460888, 0.763214)
 colors = PackedColorArray(1, 1, 1, 1, 0.393085, 0.393086, 0.393085, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_4jvnx"]
-gradient = SubResource("Gradient_2qtdg")
+gradient = SubResource("Gradient_y34a3")
 width = 128
 height = 128
 fill = 1
@@ -83,16 +80,15 @@ fill_from = Vector2(0.5, 0.5)
 [node name="DungeonTorch" type="Node2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-modulate = Color(3, 3, 3, 0.37)
-material = SubResource("CanvasItemMaterial_tgkbk")
+z_index = -1
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_fcug7")
 autoplay = "default"
-frame_progress = 0.815756
+frame_progress = 0.840943
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(0, -9)
-energy = 2.0
+energy = 1.2
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_4jvnx")
 texture_scale = 0.49

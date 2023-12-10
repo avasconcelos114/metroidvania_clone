@@ -7,6 +7,7 @@ class_name BaseEnemy
 @export var aggro_distance := 150
 @export var attack_range := 50
 @export var speed := 50
+@export var attack_frame := 1
 
 var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
 

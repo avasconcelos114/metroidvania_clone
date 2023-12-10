@@ -5,7 +5,8 @@ class_name Player
 @export var DASH_SPEED = 1000
 @export var JUMP_VELOCITY = -300.0
 @export var DASH_DURATION = 0.2
-@export var ACCELERATION = 20.0
+@export var ACCELERATION = 50.0
+@export var DASH_ACCELERATION = 20.0
 @export var HIT_KNOCKBACK = 40
 
 var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -17,6 +18,7 @@ var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
 # Movement skills config
 @export var dash_unlocked = false
 @export var wall_slide_unlocked = false
+@export var double_jump_unlocked = false
 
 # Input detection vars
 var movement_input = 0
@@ -48,7 +50,7 @@ func receive_hit_effect(direction):
 	if $HealthComponent.has_health_remaining():
 		$HurtSound.play()
 		$BloodSplatter.emitting = true
-		$BloodSplatter.process_material.set("direction:x", direction.x)
+		$BloodSplatter.process_material.set("direction", direction)
 		velocity.x = HIT_KNOCKBACK if direction.x > 0 else -HIT_KNOCKBACK
 		Global.show_damage_flash($AnimatedSprite2D)
 		await get_tree().create_timer(0.2).timeout

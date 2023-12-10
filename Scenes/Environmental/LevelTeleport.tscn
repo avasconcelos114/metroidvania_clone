@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbr8n7338i4mr"]
+
+[ext_resource type="Script" path="res://Scenes/Environmental/LevelTeleport.gd" id="1_hu6in"]
+
+[node name="LevelTeleport" type="Area2D"]
+script = ExtResource("1_hu6in")

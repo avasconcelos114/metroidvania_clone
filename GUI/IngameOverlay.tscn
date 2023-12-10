@@ -1,10 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://nk67maonyyef"]
+[gd_scene load_steps=6 format=3 uid="uid://nk67maonyyef"]
 
 [ext_resource type="Script" path="res://GUI/IngameOverlay.gd" id="1_bs4qa"]
+[ext_resource type="Shader" path="res://Scenes/Effects/Vidgette.gdshader" id="1_kvvig"]
 [ext_resource type="PackedScene" uid="uid://dt2n2v1urek4h" path="res://GUI/Components/HealthGlobe.tscn" id="1_xccdj"]
 [ext_resource type="PackedScene" uid="uid://evaa0s55o5ot" path="res://GUI/Components/ManaCharge.tscn" id="2_k22nb"]
 
-[node name="IngameOverlay" type="MarginContainer"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s6wr4"]
+shader = ExtResource("1_kvvig")
+shader_parameter/vignette_intensity = 0.2
+shader_parameter/vignette_opacity = 0.583
+shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
+
+[node name="IngameOverlay" type="ColorRect"]
+material = SubResource("ShaderMaterial_s6wr4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bs4qa")
+
+[node name="Margin" type="MarginContainer" parent="."]
 offset_right = 70.0
 offset_bottom = 70.0
 size_flags_horizontal = 3
@@ -14,22 +30,21 @@ theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
-script = ExtResource("1_bs4qa")
 
-[node name="PlayerStats" type="HBoxContainer" parent="."]
+[node name="PlayerStats" type="HBoxContainer" parent="Margin"]
 layout_direction = 2
 layout_mode = 2
 
-[node name="HealthGlobe" parent="PlayerStats" instance=ExtResource("1_xccdj")]
+[node name="HealthGlobe" parent="Margin/PlayerStats" instance=ExtResource("1_xccdj")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PlayerStats"]
+[node name="MarginContainer" type="MarginContainer" parent="Margin/PlayerStats"]
 layout_mode = 2
 theme_override_constants/margin_top = 3
 
-[node name="BoxContainer" type="BoxContainer" parent="PlayerStats/MarginContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="Margin/PlayerStats/MarginContainer"]
 layout_mode = 2
 vertical = true
 
-[node name="ManaCharge" parent="PlayerStats/MarginContainer/BoxContainer" instance=ExtResource("2_k22nb")]
+[node name="ManaCharge" parent="Margin/PlayerStats/MarginContainer/BoxContainer" instance=ExtResource("2_k22nb")]
 layout_mode = 2

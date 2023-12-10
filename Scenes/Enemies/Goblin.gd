@@ -26,7 +26,7 @@ func handle_death():
 func receive_hit(direction):
 	hit_sound.play()
 	$BloodSplatter.emitting = true
-	$BloodSplatter.process_material.set("direction:x", direction.x)
+	$BloodSplatter.process_material.set("direction", direction)
 	Global.show_damage_flash(sprite)
 	await get_tree().create_timer(0.2).timeout
 	$BloodSplatter.emitting = false
