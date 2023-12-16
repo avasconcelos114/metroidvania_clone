@@ -8,4 +8,4 @@ func _ready():
 
 func teleport_to_level(body):
 	if body is Player:
-		Global.emit_signal("LevelChangedSignal", level_name, spawn_point_name)
+		LevelManager.set_current_level(level_name, spawn_point_name)

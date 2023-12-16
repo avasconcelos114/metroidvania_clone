@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_es2e1")
-armor = 2
+armor = 1
 evade = 2

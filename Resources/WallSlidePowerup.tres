@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PowerUpStats" load_steps=3 format=3 uid="uid://bpl6xfudvi5cj"]
+
+[ext_resource type="Script" path="res://Resources/PowerUpStats.gd" id="1_8s3uh"]
+[ext_resource type="Texture2D" uid="uid://ck4ndnfisnpd1" path="res://Assets/Sprites/Environment/wall_slide_collectible.png" id="2_25pa1"]
+
+[resource]
+script = ExtResource("1_8s3uh")
+texture = ExtResource("2_25pa1")
+powerup_id = "wallslide"
+collect_message = "Wall Slide ability unlocked!"

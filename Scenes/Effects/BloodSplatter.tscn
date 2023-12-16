@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnkjd4vx6wkpa"]
+[gd_scene load_steps=5 format=3 uid="uid://cnkjd4vx6wkpa"]
+
+[ext_resource type="Texture2D" uid="uid://cimnxt8gci7co" path="res://Assets/Sprites/Environment/blood_particle.png" id="1_w3alq"]
 
 [sub_resource type="Gradient" id="Gradient_58vtw"]
 offsets = PackedFloat32Array(0, 0.276657, 0.538905, 0.798271, 1)
@@ -16,14 +18,15 @@ velocity_pivot = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
 initial_velocity_min = 39.3
 initial_velocity_max = 87.34
 gravity = Vector3(0, 98, 0)
-scale_min = 3.0
-scale_max = 5.0
+scale_max = 2.0
 color = Color(1, 0.0784314, 0.14902, 1)
 color_ramp = SubResource("GradientTexture1D_4krj4")
 collision_mode = 2
 
 [node name="BloodSplatter" type="GPUParticles2D"]
-amount = 80
+z_index = 4
+amount = 40
 process_material = SubResource("ParticleProcessMaterial_g2l8t")
+texture = ExtResource("1_w3alq")
 speed_scale = 1.2
 trail_sections = 2

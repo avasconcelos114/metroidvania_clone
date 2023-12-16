@@ -12,7 +12,6 @@ func _ready():
 
 func _physics_process(delta):
 	super.gravity(delta)
-
 	if health_component.has_died:
 		return
 	handle_character_direction()

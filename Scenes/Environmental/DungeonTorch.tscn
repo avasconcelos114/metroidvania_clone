@@ -1,6 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://7t0euv14swue"]
+[gd_scene load_steps=23 format=3 uid="uid://7t0euv14swue"]
 
+[ext_resource type="Script" path="res://Scenes/Environmental/DungeonTorch.gd" id="1_tn1i6"]
 [ext_resource type="Texture2D" uid="uid://prt5a1kb10v6" path="res://Assets/Sprites/Environment/burning_loop_1.png" id="2_8yw8c"]
+[ext_resource type="Texture2D" uid="uid://cyby7fqr081yh" path="res://Assets/Sprites/Environment/fire_spritesheet.png" id="2_wlkth"]
+[ext_resource type="Texture2D" uid="uid://b6t2rn7e6q06p" path="res://Assets/Sprites/Environment/light_01.png" id="4_7feun"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tpuet"]
 atlas = ExtResource("2_8yw8c")
@@ -66,29 +69,89 @@ animations = [{
 "speed": 16.0
 }]
 
-[sub_resource type="Gradient" id="Gradient_y34a3"]
-offsets = PackedFloat32Array(0, 0.460888, 0.763214)
-colors = PackedColorArray(1, 1, 1, 1, 0.393085, 0.393086, 0.393085, 1, 0, 0, 0, 1)
+[sub_resource type="AtlasTexture" id="AtlasTexture_8lp8m"]
+atlas = ExtResource("2_wlkth")
+region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_4jvnx"]
-gradient = SubResource("Gradient_y34a3")
-width = 128
-height = 128
-fill = 1
-fill_from = Vector2(0.5, 0.5)
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fcye"]
+atlas = ExtResource("2_wlkth")
+region = Rect2(17, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_soeut"]
+atlas = ExtResource("2_wlkth")
+region = Rect2(34, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s248o"]
+atlas = ExtResource("2_wlkth")
+region = Rect2(51, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6j5xy"]
+atlas = ExtResource("2_wlkth")
+region = Rect2(68, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lr0hk"]
+atlas = ExtResource("2_wlkth")
+region = Rect2(85, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44o6w"]
+atlas = ExtResource("2_wlkth")
+region = Rect2(102, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdrey"]
+atlas = ExtResource("2_wlkth")
+region = Rect2(119, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l31rd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8lp8m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3fcye")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_soeut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s248o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6j5xy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lr0hk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44o6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hdrey")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="DungeonTorch" type="Node2D"]
+script = ExtResource("1_tn1i6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 z_index = -1
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_fcug7")
 autoplay = "default"
 frame_progress = 0.840943
 
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+z_index = -1
+sprite_frames = SubResource("SpriteFrames_l31rd")
+autoplay = "default"
+frame_progress = 0.330758
+
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(0, -9)
 energy = 1.2
 shadow_enabled = true
-texture = SubResource("GradientTexture2D_4jvnx")
-texture_scale = 0.49
+texture = ExtResource("4_7feun")
+texture_scale = 0.2

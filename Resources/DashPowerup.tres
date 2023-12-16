@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PowerUpStats" load_steps=3 format=3 uid="uid://wrgnxa4pm1k3"]
+
+[ext_resource type="Script" path="res://Resources/PowerUpStats.gd" id="1_dbfct"]
+[ext_resource type="Texture2D" uid="uid://bjfm5n7wkfihr" path="res://Assets/Sprites/Environment/dash_collectible.png" id="2_todf7"]
+
+[resource]
+script = ExtResource("1_dbfct")
+texture = ExtResource("2_todf7")
+powerup_id = "dash"
+collect_message = "Dash ability unlocked!"

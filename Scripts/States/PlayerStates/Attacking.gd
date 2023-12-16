@@ -2,6 +2,7 @@ extends PlayerState
 
 @export var hitbox_component: HitboxComponent
 @export var attack_sound: AudioStreamPlayer
+@export var attack_grunt_sounds: Array[AudioStream]
 var attack_in_progress = true
 
 func physics_update(delta):
@@ -39,7 +40,19 @@ func begin_attack():
 func process_attack():
 	if player.sprite.frame == 2:
 		attack_sound.play()
+
+		if randi_range(0, 10) >= 6:
+			play_random_grunt()
+			
 		hitbox_component.attack()
 
 func complete_attack():
 	attack_in_progress = false
+
+func play_random_grunt():
+	var stream = attack_grunt_sounds[randi_range(0, attack_grunt_sounds.size() - 1)];
+	var audio = AudioStreamPlayer.new()
+	audio.stream = stream
+	audio.finished.connect(audio.queue_free)
+	add_child(audio)
+	audio.play()

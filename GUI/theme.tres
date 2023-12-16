@@ -1,0 +1,48 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bf6eiaeblj0qv"]
+
+[ext_resource type="Texture2D" uid="uid://bmx8r3l5x0t7u" path="res://Assets/UI/Textures/Button.png" id="1_0edov"]
+[ext_resource type="FontFile" uid="uid://cygxppur8u6t6" path="res://Assets/UI/Fonts/DungeonFont.ttf" id="1_75211"]
+[ext_resource type="FontFile" uid="uid://bebmb4xm6awfc" path="res://Assets/UI/Fonts/m5x7.ttf" id="3_n6iai"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sf48m"]
+texture = ExtResource("1_0edov")
+texture_margin_left = 10.0
+texture_margin_top = 15.0
+texture_margin_right = 10.0
+texture_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1om4f"]
+texture = ExtResource("1_0edov")
+texture_margin_left = 10.0
+texture_margin_top = 15.0
+texture_margin_right = 10.0
+texture_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ih41f"]
+texture = ExtResource("1_0edov")
+texture_margin_left = 10.0
+texture_margin_top = 15.0
+texture_margin_right = 10.0
+texture_margin_bottom = 15.0
+
+[resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0, 0, 0, 0.501961)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_75211")
+Button/styles/hover = SubResource("StyleBoxTexture_sf48m")
+Button/styles/normal = SubResource("StyleBoxTexture_1om4f")
+Button/styles/pressed = SubResource("StyleBoxTexture_ih41f")
+HeaderLarge/base_type = &"Label"
+HeaderLarge/colors/font_color = Color(0.878431, 0.458824, 0.113725, 1)
+HeaderLarge/colors/font_shadow_color = Color(0, 0, 0, 1)
+HeaderLarge/constants/shadow_offset_x = 1
+HeaderLarge/constants/shadow_offset_y = 1
+HeaderLarge/font_sizes/font_size = 36
+HeaderLarge/fonts/font = ExtResource("1_75211")
+Label/font_sizes/font_size = 24
+Label/fonts/font = ExtResource("3_n6iai")

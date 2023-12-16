@@ -9,7 +9,8 @@ var attack_in_progress = false
 var player_direction = 0
 
 func enter_state():
-	await get_tree().create_timer(0.4).timeout
+	sprite.play("default")
+	await get_tree().create_timer(attack_cooldown.wait_time / 2).timeout
 	begin_attack()
 
 	if not enemy.health_component.DiedEvent.is_connected(transition_to_death):
@@ -37,8 +38,7 @@ func exit_state():
 func physics_update(delta):
 	enemy.velocity = Vector2.ZERO
 
-	var distance = Global.player.global_position - enemy.global_position
-
+	var distance = PlayerManager.player.global_position - enemy.global_position
 	enemy.last_direction = distance.x
 
 	if distance.length() > enemy.attack_range and not attack_in_progress:

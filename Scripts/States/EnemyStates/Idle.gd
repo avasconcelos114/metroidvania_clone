@@ -29,8 +29,7 @@ func transition_to_death():
 
 func physics_update(delta):
 	handle_movement()
-
-	var distance = Global.player.global_position - enemy.global_position
+	var distance = PlayerManager.player.global_position - enemy.global_position
 	var should_aggro = distance.length() < enemy.aggro_distance
 	if should_aggro:
 		Transitioned.emit(self, "chase")

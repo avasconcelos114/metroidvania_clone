@@ -1,0 +1,64 @@
+[gd_scene load_steps=11 format=3 uid="uid://cp4stwqbjrvhn"]
+
+[ext_resource type="Script" path="res://Scenes/Environmental/PowerupCollectible.gd" id="1_k4kn4"]
+[ext_resource type="Resource" uid="uid://wrgnxa4pm1k3" path="res://Resources/DashPowerup.tres" id="2_0rlgc"]
+[ext_resource type="Texture2D" uid="uid://bjfm5n7wkfihr" path="res://Assets/Sprites/Environment/dash_collectible.png" id="3_m80hr"]
+[ext_resource type="Texture2D" uid="uid://dtltgogrchqg1" path="res://Assets/Sprites/Environment/star_06.png" id="4_kle4y"]
+[ext_resource type="AudioStream" uid="uid://def268oox0pya" path="res://Assets/SFX/Environment/Collectible_Passive.wav" id="4_tnu0p"]
+[ext_resource type="AudioStream" uid="uid://wckasfhlks6n" path="res://Assets/SFX/Environment/Collectible_Collect.wav" id="5_32siq"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gspa3"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 20.0
+direction = Vector3(-10, 2.08165e-12, 2.08165e-12)
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+gravity = Vector3(2.08165e-12, -15, 2.08165e-12)
+linear_accel_min = 2.08167e-15
+linear_accel_max = 30.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pfa0s"]
+
+[sub_resource type="Gradient" id="Gradient_y34a3"]
+offsets = PackedFloat32Array(0, 0.68)
+colors = PackedColorArray(2, 2, 2, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m4gdb"]
+gradient = SubResource("Gradient_y34a3")
+width = 78
+height = 78
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="PowerupCollectible" type="Area2D"]
+script = ExtResource("1_k4kn4")
+stats = ExtResource("2_0rlgc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_m80hr")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_gspa3")
+texture = ExtResource("4_kle4y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pfa0s")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 1, 0.8, 1)
+energy = 1.8
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_m4gdb")
+texture_scale = 0.49
+
+[node name="PassiveSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_tnu0p")
+autoplay = true
+max_distance = 300.0
+
+[node name="ActiveSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_32siq")
+volume_db = 15.0

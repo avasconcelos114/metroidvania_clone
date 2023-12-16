@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PowerUpStats" load_steps=3 format=3 uid="uid://barwakk4mv7f1"]
+
+[ext_resource type="Script" path="res://Resources/PowerUpStats.gd" id="1_k6mdb"]
+[ext_resource type="Texture2D" uid="uid://167meyc2f1h1" path="res://Assets/Sprites/Environment/double_jump_collectible.png" id="2_ojew0"]
+
+[resource]
+script = ExtResource("1_k6mdb")
+texture = ExtResource("2_ojew0")
+powerup_id = "doublejump"
+collect_message = "Double Jump ability unlocked!"

@@ -4,4 +4,4 @@
 
 [resource]
 script = ExtResource("1_aopvh")
-base_damage = 7
+base_damage = 5

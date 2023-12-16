@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://1c5draqsupbo"
+path="res://.godot/imported/03_A Dire Foe_LOOP.ogg-6aefd97eaf82a7c8b4844604c2b518e4.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Music/03_A Dire Foe_LOOP.ogg"
+dest_files=["res://.godot/imported/03_A Dire Foe_LOOP.ogg-6aefd97eaf82a7c8b4844604c2b518e4.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

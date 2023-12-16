@@ -38,6 +38,7 @@ shader_parameter/active = true
 shader_parameter/tint = Color(0.00784314, 0.360784, 0, 1)
 
 [node name="Goblin" type="CharacterBody2D" node_paths=PackedStringArray("health_component")]
+z_index = 3
 collision_layer = 2
 collision_mask = 2
 slide_on_ceiling = false
@@ -45,8 +46,7 @@ floor_constant_speed = true
 script = ExtResource("1_11icx")
 health_component = NodePath("HealthComponent")
 aggro_distance = 180
-attack_range = 35
-speed = 70
+speed = 55
 attack_frame = 4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

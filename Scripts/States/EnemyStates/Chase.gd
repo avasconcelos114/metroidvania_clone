@@ -22,8 +22,8 @@ func set_enemy_velocity(new_velocity):
 	enemy.velocity = new_velocity
 
 func physics_update(_delta):
-	var distance = Global.player.global_position - enemy.global_position
-	navigation_agent.set_target_position(Global.player.global_position)
+	var distance = PlayerManager.player.global_position - enemy.global_position
+	navigation_agent.set_target_position(PlayerManager.player.global_position)
 	
 	if distance.length() > enemy.aggro_distance:
 		Transitioned.emit(self, "idle")

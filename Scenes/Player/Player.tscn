@@ -1,11 +1,15 @@
-[gd_scene load_steps=34 format=3 uid="uid://uwxfr20k1mn3"]
+[gd_scene load_steps=41 format=3 uid="uid://uwxfr20k1mn3"]
 
 [ext_resource type="Script" path="res://Scenes/Player/Player.gd" id="1_phk7p"]
 [ext_resource type="Shader" path="res://Scenes/Effects/HitFlash.gdshader" id="2_i603l"]
+[ext_resource type="AudioStream" uid="uid://dyb5ca5w1y3m5" path="res://Assets/SFX/Player/hurt_sound_1.wav" id="2_svom7"]
 [ext_resource type="PackedScene" uid="uid://c0f7n0y0tqlul" path="res://Scenes/Components/HealthComponent.tscn" id="3_cgp6e"]
 [ext_resource type="SpriteFrames" uid="uid://dmre6odlscx6g" path="res://Resources/Player/AltPlayerSpriteFrames.tres" id="3_itlp0"]
+[ext_resource type="AudioStream" uid="uid://cs8kspypmw00d" path="res://Assets/SFX/Player/hurt_sound_2.wav" id="3_rch0c"]
+[ext_resource type="AudioStream" uid="uid://bhqt66rtnecq3" path="res://Assets/SFX/Player/hurt_sound_3.wav" id="4_21kkj"]
 [ext_resource type="Resource" uid="uid://b51d5ncql5tjy" path="res://Resources/Player/StartArmorStats.tres" id="5_e5sch"]
 [ext_resource type="PackedScene" uid="uid://cd2tlp65h22wn" path="res://Scenes/Components/HurtboxComponent.tscn" id="5_lexje"]
+[ext_resource type="AudioStream" uid="uid://drg5ljdmyf3bk" path="res://Assets/SFX/Player/hurt_sound_4.wav" id="5_pbib7"]
 [ext_resource type="Resource" uid="uid://b3y5vglm3cer3" path="res://Resources/Player/StartWeaponDamageStats.tres" id="6_51172"]
 [ext_resource type="PackedScene" uid="uid://bco2bxp5k2mng" path="res://Scenes/Components/HitboxComponent.tscn" id="6_kn5cg"]
 [ext_resource type="Script" path="res://Scripts/States/StateMachine.gd" id="9_omggr"]
@@ -14,14 +18,17 @@
 [ext_resource type="Script" path="res://Scripts/States/PlayerStates/Jumping.gd" id="12_5c4ve"]
 [ext_resource type="Script" path="res://Scripts/States/PlayerStates/Crouching.gd" id="13_inwh3"]
 [ext_resource type="Script" path="res://Scripts/States/PlayerStates/Attacking.gd" id="14_va5wh"]
+[ext_resource type="AudioStream" uid="uid://cyywfh8nwi3ua" path="res://Assets/SFX/Player/attack_grount_sound2.wav" id="15_2rxv2"]
 [ext_resource type="Script" path="res://Scripts/States/PlayerStates/Dashing.gd" id="15_o8vh7"]
+[ext_resource type="AudioStream" uid="uid://cl3n6rdkf4wk2" path="res://Assets/SFX/Player/attack_grount_sound3.wav" id="16_bv4qn"]
 [ext_resource type="Script" path="res://Scripts/States/PlayerStates/WallSlide.gd" id="16_j7tn0"]
+[ext_resource type="AudioStream" uid="uid://n3pwlkh61fxl" path="res://Assets/SFX/Player/attack_grount_sound4.wav" id="17_fwwtx"]
 [ext_resource type="PackedScene" uid="uid://cnkjd4vx6wkpa" path="res://Scenes/Effects/BloodSplatter.tscn" id="17_g44lh"]
 [ext_resource type="Script" path="res://Scripts/States/PlayerStates/Death.gd" id="17_vt5w1"]
-[ext_resource type="AudioStream" uid="uid://cvymb4w8ynkjw" path="res://Assets/SFX/Player/death_sound.mp3" id="19_tnmoy"]
 [ext_resource type="AudioStream" uid="uid://lwtdxfenww38" path="res://Assets/SFX/Player/attack_sound.mp3" id="20_mb573"]
-[ext_resource type="AudioStream" uid="uid://bx61dab7viarl" path="res://Assets/SFX/Player/hurt_sound.mp3" id="21_ttcir"]
-[ext_resource type="AudioStream" uid="uid://7p0pveiocvg1" path="res://Assets/SFX/Player/jump_landing_sound.wav" id="22_2yrr0"]
+[ext_resource type="AudioStream" uid="uid://bvbes8be44feg" path="res://Assets/SFX/Player/attack_grunt_sound.wav" id="21_ni6vx"]
+[ext_resource type="AudioStream" uid="uid://b2lhrkjhoc3up" path="res://Assets/SFX/Player/jump_landing_sound.wav" id="22_2yrr0"]
+[ext_resource type="AudioStream" uid="uid://br2nlpkonysh1" path="res://Assets/SFX/Player/death_sound.wav" id="27_76gxl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_npu37"]
 size = Vector2(18, 39)
@@ -83,6 +90,7 @@ floor_max_angle = 1.0472
 platform_wall_layers = 4
 script = ExtResource("1_phk7p")
 HIT_KNOCKBACK = 200
+hurt_sounds = Array[AudioStream]([ExtResource("2_svom7"), ExtResource("3_rch0c"), ExtResource("4_21kkj"), ExtResource("5_pbib7")])
 
 [node name="PhysicsCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4.5)
@@ -97,13 +105,15 @@ disabled = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_ht8cj")
 sprite_frames = ExtResource("3_itlp0")
-animation = &"crouch_attack"
+animation = &"attack"
 autoplay = "default"
-frame = 2
-frame_progress = 1.0
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+current = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
+zoom = Vector2(1.4, 1.4)
+limit_smoothed = true
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
@@ -117,13 +127,14 @@ speed_scale = 0.6
 explosiveness = 0.15
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_cgp6e")]
-max_health = 60
+max_health = 70
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_lexje")]
 collision_layer = 96
 collision_mask = 96
 health_component = NodePath("../HealthComponent")
 armor_stats = ExtResource("5_e5sch")
+invulnerability_duration = 0.2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 position = Vector2(0, 5)
@@ -135,6 +146,7 @@ collision_mask = 96
 health_component = NodePath("../HealthComponent")
 armor_stats = ExtResource("5_e5sch")
 is_enabled = false
+invulnerability_duration = 0.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponentCrouch"]
 position = Vector2(0, 9)
@@ -177,6 +189,7 @@ player = NodePath("../..")
 script = ExtResource("14_va5wh")
 hitbox_component = NodePath("../../HitboxComponent")
 attack_sound = NodePath("../../AttackSound")
+attack_grunt_sounds = Array[AudioStream]([ExtResource("21_ni6vx"), ExtResource("15_2rxv2"), ExtResource("16_bv4qn"), ExtResource("17_fwwtx")])
 player = NodePath("../..")
 
 [node name="Dashing" type="Node" parent="StateMachine" node_paths=PackedStringArray("ghost_timer", "dash_timer", "cooldown_timer", "player")]
@@ -229,17 +242,14 @@ position = Vector2(2, 0)
 emitting = false
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("19_tnmoy")
+stream = ExtResource("27_76gxl")
 
 [node name="AttackSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("20_mb573")
 
-[node name="HurtSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("21_ttcir")
-
 [node name="JumpLandingSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("22_2yrr0")
-volume_db = -20.0
+volume_db = 13.0
 
 [node name="CharacterLight" type="PointLight2D" parent="."]
 position = Vector2(0, 14)

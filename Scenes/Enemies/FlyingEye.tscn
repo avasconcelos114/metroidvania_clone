@@ -1,0 +1,135 @@
+[gd_scene load_steps=19 format=3 uid="uid://diyqji3p6u3kb"]
+
+[ext_resource type="Script" path="res://Scenes/Enemies/FlyingEye.gd" id="1_nmou7"]
+[ext_resource type="Shader" path="res://Scenes/Effects/HitFlash.gdshader" id="2_6501x"]
+[ext_resource type="SpriteFrames" uid="uid://dm0osywjc1ujm" path="res://Resources/Enemies/FlyingEye/FlyingEyeFrames.tres" id="3_k58h1"]
+[ext_resource type="PackedScene" uid="uid://c0f7n0y0tqlul" path="res://Scenes/Components/HealthComponent.tscn" id="4_4kv7o"]
+[ext_resource type="PackedScene" uid="uid://cd2tlp65h22wn" path="res://Scenes/Components/HurtboxComponent.tscn" id="5_nmtd3"]
+[ext_resource type="Resource" uid="uid://dknxfhjrqk6i5" path="res://Resources/Enemies/FlyingEye/FlyingEyeArmorStats.tres" id="6_xqlus"]
+[ext_resource type="PackedScene" uid="uid://bco2bxp5k2mng" path="res://Scenes/Components/HitboxComponent.tscn" id="7_38f5o"]
+[ext_resource type="Resource" uid="uid://dc6cw8piav2wf" path="res://Resources/Enemies/FlyingEye/FlyingEyeDamageStats.tres" id="8_g5hps"]
+[ext_resource type="Script" path="res://Scripts/States/StateMachine.gd" id="9_fgpkw"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Idle.gd" id="10_qh0cl"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Death.gd" id="11_p2kv2"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Chase.gd" id="12_8tiig"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Attack.gd" id="13_en1bn"]
+[ext_resource type="AudioStream" uid="uid://cv2uexjj0cfos" path="res://Assets/SFX/Enemies/Skeleton/Skeleton_Hit.mp3" id="14_vnqp1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xjhv5"]
+resource_local_to_scene = true
+shader = ExtResource("2_6501x")
+shader_parameter/active = false
+shader_parameter/tint = Color(0.796078, 0.0392157, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wgdn1"]
+size = Vector2(14, 13)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5cayk"]
+radius = 7.0
+height = 18.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tvax3"]
+size = Vector2(20, 17)
+
+[node name="FlyingEye" type="CharacterBody2D" node_paths=PackedStringArray("health_component")]
+z_index = 3
+collision_layer = 6
+collision_mask = 6
+motion_mode = 1
+slide_on_ceiling = false
+floor_constant_speed = true
+script = ExtResource("1_nmou7")
+is_airborne = true
+health_component = NodePath("HealthComponent")
+attack_range = 20
+speed = 65
+attack_frame = 6
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_xjhv5")
+position = Vector2(-4, -12)
+scale = Vector2(0.8, 0.8)
+sprite_frames = ExtResource("3_k58h1")
+animation = &"death"
+autoplay = "default"
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 9)
+shape = SubResource("RectangleShape2D_wgdn1")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_4kv7o")]
+max_health = 14
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_nmtd3")]
+collision_layer = 144
+collision_mask = 144
+health_component = NodePath("../HealthComponent")
+armor_stats = ExtResource("6_xqlus")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, 9)
+shape = SubResource("CapsuleShape2D_5cayk")
+
+[node name="AutoattackHitbox" parent="." instance=ExtResource("7_38f5o")]
+collision_layer = 96
+collision_mask = 96
+damage_stats = ExtResource("8_g5hps")
+should_autoattack = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="AutoattackHitbox"]
+position = Vector2(0, 9)
+shape = SubResource("CapsuleShape2D_5cayk")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("7_38f5o")]
+position = Vector2(31, 1)
+collision_layer = 96
+collision_mask = 96
+damage_stats = ExtResource("8_g5hps")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(-14, 8)
+shape = SubResource("RectangleShape2D_tvax3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("9_fgpkw")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "navigation_agent", "patrol_timer")]
+script = ExtResource("10_qh0cl")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+navigation_agent = NodePath("../../NavigationAgent2D")
+patrol_timer = NodePath("../../Timers/PatrolCycleTimer")
+
+[node name="Death" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite")]
+script = ExtResource("11_p2kv2")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+
+[node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "navigation_agent")]
+script = ExtResource("12_8tiig")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+navigation_agent = NodePath("../../NavigationAgent2D")
+
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "attack_cooldown", "hitbox")]
+script = ExtResource("13_en1bn")
+enemy = NodePath("../..")
+sprite = NodePath("../../AnimatedSprite2D")
+attack_cooldown = NodePath("../../Timers/AttackCooldownTimer")
+hitbox = NodePath("../../HitboxComponent")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="PatrolCycleTimer" type="Timer" parent="Timers"]
+
+[node name="AttackCooldownTimer" type="Timer" parent="Timers"]
+wait_time = 0.8
+one_shot = true
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_vnqp1")

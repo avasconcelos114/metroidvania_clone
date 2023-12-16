@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DamageStats" load_steps=2 format=3 uid="uid://dc6cw8piav2wf"]
+
+[ext_resource type="Script" path="res://Resources/Stats/DamageStats.gd" id="1_mo8g8"]
+
+[resource]
+script = ExtResource("1_mo8g8")
+base_damage = 4

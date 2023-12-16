@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ArmorStats" load_steps=2 format=3 uid="uid://dknxfhjrqk6i5"]
+
+[ext_resource type="Script" path="res://Resources/Stats/ArmorStats.gd" id="1_qh44l"]
+
+[resource]
+script = ExtResource("1_qh44l")
+armor = 1
+evade = 6

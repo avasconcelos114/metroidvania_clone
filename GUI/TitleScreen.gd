@@ -1,10 +1,8 @@
 extends Control
+class_name TitleScreen
 
-signal StartButtonPressed
-signal QuitButtonPressed
+func _on_start_button_pressed():
+	Global.StartGameSignal.emit()
 
-func _on_start_button_on_pressed():
-	StartButtonPressed.emit()
-
-func _on_quit_button_on_pressed():
-	QuitButtonPressed.emit()
+func _on_quit_button_pressed():
+	get_tree().quit()

@@ -17,6 +17,7 @@ script = ExtResource("1_iga6o")
 label = NodePath("MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Label")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+modulate = Color(1, 1, 1, 0)
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -58,3 +59,7 @@ vertical_alignment = 1
 layout_mode = 2
 texture = ExtResource("4_2c77g")
 stretch_mode = 5
+
+[node name="DurationTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
