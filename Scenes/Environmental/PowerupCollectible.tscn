@@ -17,6 +17,8 @@ angular_velocity_max = 10.0
 gravity = Vector3(2.08165e-12, -15, 2.08165e-12)
 linear_accel_min = 2.08167e-15
 linear_accel_max = 30.0
+scale_min = 0.5
+scale_max = 1.7
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pfa0s"]
 

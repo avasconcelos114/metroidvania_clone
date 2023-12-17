@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b1nu4dnqnkf6p"
+path="res://.godot/imported/15_Anxious Heart_LOOP.ogg-90cbd05a8e6c0b6c9fef6aa2cc070a75.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Music/15_Anxious Heart_LOOP.ogg"
+dest_files=["res://.godot/imported/15_Anxious Heart_LOOP.ogg-90cbd05a8e6c0b6c9fef6aa2cc070a75.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

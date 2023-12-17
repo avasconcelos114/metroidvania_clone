@@ -33,3 +33,9 @@ func load_level(spawn_name):
 		new_player.global_position = spawn.global_position
 		current_level_scn.add_child(new_player)
 	LevelLoadedSignal.emit()
+
+func offload_level():
+	if current_level_scn:
+		current_level_scn.queue_free()
+		current_level_scn = null
+		current_level = ''

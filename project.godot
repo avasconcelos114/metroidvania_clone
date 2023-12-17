@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Global="*res://Scripts/Global.gd"
 PlayerManager="*res://Scripts/PlayerManager.gd"
 LevelManager="*res://Scripts/LevelManager.gd"
+ScreenManager="*res://Scripts/ScreenManager.gd"
 
 [display]
 
@@ -27,6 +28,7 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 window/stretch/scale=2.0
+mouse_cursor/custom_image="res://Assets/UI/Textures/Cursor.png"
 
 [gui]
 

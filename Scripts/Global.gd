@@ -2,8 +2,8 @@ extends Node
 
 # Game Signals
 signal StartGameSignal
+signal ReloadLevelSignal
 signal GameOverSignal
-signal RestartFromCheckpointSignal
 
 # Variables
 var time = 0

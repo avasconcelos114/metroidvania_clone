@@ -1,37 +1,27 @@
 extends Node2D
 
-var screens = {
-	'title': preload("res://GUI/TitleScreen.tscn"),
-	'gameover': preload("res://GUI/GameOverScreen.tscn"),
-	'ingame_overlay': preload("res://GUI/IngameOverlay.tscn"),
-}
-
-var current_screen
-
 func _ready():
-	render_ui('title')
-	#Global.LevelChangedSignal.connect(change_level)
-	Global.StartGameSignal.connect(start_game)
-	LevelManager.LevelLoadedSignal.connect(initialize_ui)
+	ScreenManager.render_ui('title')
+	
+	if not Global.StartGameSignal.is_connected(start_game):
+		Global.StartGameSignal.connect(start_game)
+	
+	if not Global.ReloadLevelSignal.is_connected(reload_level):
+		Global.ReloadLevelSignal.connect(reload_level)
+	
+	if not LevelManager.LevelLoadedSignal.is_connected(initialize_ui):
+		LevelManager.LevelLoadedSignal.connect(initialize_ui)
 
 func start_game():
-	LevelManager.set_current_level('dungeon')
+	LevelManager.set_current_level('tutorial')
+
+func reload_level():
+	LevelManager.set_current_level(LevelManager.current_level)
 
 func initialize_ui():
-	render_ui('ingame_overlay')
+	ScreenManager.render_ui('ingame_overlay')
 	if not PlayerManager.PlayerDied.is_connected(display_game_over_screen):
 		PlayerManager.PlayerDied.connect(display_game_over_screen)
 
 func display_game_over_screen():
-	render_ui('gameover')
-
-## UI Rendering
-func render_ui(screen_name: String):
-	if not screen_name in screens:
-		return
-
-	if current_screen:
-		current_screen.queue_free()
-
-	current_screen = screens[screen_name].instantiate()
-	$GUI.add_child(current_screen)
+	ScreenManager.render_ui('gameover')

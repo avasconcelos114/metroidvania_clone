@@ -14,7 +14,6 @@ func show_text(text, duration):
 		$DurationTimer.stop()
 	label.set_text(text.replace("\\n", "\n"))
 	label.label_settings.font_color = Color(1,1,1,1)
-	visible = true
 	$DurationTimer.wait_time = duration
 	var tween = get_tree().create_tween()
 	tween.set_ease(Tween.EASE_OUT)
@@ -27,7 +26,3 @@ func hide_text():
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_QUART)
 	tween.tween_property($MarginContainer, "modulate:a", 0, 1.5)
-	tween.tween_callback(set_invisible)
-
-func set_invisible():
-	visible = false

@@ -12,7 +12,6 @@ font_size = 36
 shadow_color = Color(0, 0, 0, 1)
 
 [node name="ScreenNotification" type="CanvasLayer" node_paths=PackedStringArray("label")]
-visible = false
 script = ExtResource("1_iga6o")
 label = NodePath("MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Label")
 

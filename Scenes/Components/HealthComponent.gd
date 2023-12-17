@@ -23,6 +23,8 @@ func heal(health):
 func take_damage(damage: float):
 	if current_health - damage < 0:
 		current_health = 0
+	elif current_health - damage > max_health:
+		current_health = max_health
 	else:
 		current_health -= damage
 	emit_signal("HealthChangedEvent", current_health)

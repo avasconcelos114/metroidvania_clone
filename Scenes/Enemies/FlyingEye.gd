@@ -30,8 +30,8 @@ func receive_hit(_direction):
 
 func handle_character_direction():
 	if last_direction < 0:
-		hitbox_component.position.x = -31
+		hitbox_component.position.x = -17
 		sprite.set_flip_h(true)
 	else:
-		hitbox_component.position.x = 31
+		hitbox_component.position.x = 17
 		sprite.set_flip_h(false)

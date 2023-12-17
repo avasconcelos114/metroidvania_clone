@@ -4,6 +4,8 @@ extends BaseState
 @export var sprite: AnimatedSprite2D
 @export var attack_cooldown: Timer
 @export var hitbox: HitboxComponent
+@export var external_attack_animation: AnimatedSprite2D
+@export var external_attack_trigger_frame := 1
 
 var attack_in_progress = false
 var player_direction = 0
@@ -57,6 +59,14 @@ func begin_attack():
 		sprite.animation_finished.connect(complete_attack)
 
 func perform_attack():
+	if external_attack_animation != null and sprite.frame == external_attack_trigger_frame:
+			print("setting fire animation to visible")
+			external_attack_animation.visible = true
+			external_attack_animation.play()
+			print("Playing animation")
+			if not external_attack_animation.animation_finished.is_connected(hide_external_animation):
+				external_attack_animation.animation_finished.connect(hide_external_animation)
+
 	if sprite.frame == enemy.attack_frame and not enemy.health_component.has_died:
 		hitbox.attack()
 
@@ -66,3 +76,7 @@ func complete_attack():
 		# Begin another attack cycle if enemy is still alive
 		sprite.play("default")
 		attack_cooldown.start()
+
+func hide_external_animation():
+	if external_attack_animation:
+		external_attack_animation.visible = false

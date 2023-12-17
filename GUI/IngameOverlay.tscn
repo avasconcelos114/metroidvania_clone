@@ -7,8 +7,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s6wr4"]
 shader = ExtResource("1_kvvig")
-shader_parameter/vignette_intensity = 0.2
-shader_parameter/vignette_opacity = 0.583
+shader_parameter/vignette_intensity = 0.25
+shader_parameter/vignette_opacity = 1.0
 shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
 
 [node name="IngameOverlay" type="ColorRect"]

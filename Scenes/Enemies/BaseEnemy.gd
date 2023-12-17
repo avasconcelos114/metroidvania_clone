@@ -10,7 +10,6 @@ class_name BaseEnemy
 @export var attack_frame := 1
 
 var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 var last_direction: float
 
 func _init():

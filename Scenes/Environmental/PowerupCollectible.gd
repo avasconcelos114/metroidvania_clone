@@ -29,6 +29,12 @@ func collect_powerup(body):
 	if body is Player:
 		$PassiveSFX.stop()
 		$ActiveSFX.play()
+
+		# Heal HP to max
+		var health_component = PlayerManager.player.health_component as HealthComponent
+		if health_component:
+			health_component.heal(health_component.max_health)
+
 		PlayerManager.collect_powerup(stats)
 		notification.emit_signal("ShowTextSignal", stats.collect_message, 3)
 		visible = false
