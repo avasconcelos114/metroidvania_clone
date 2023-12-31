@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cp48ek7127bta"]
+[gd_scene load_steps=20 format=3 uid="uid://cp48ek7127bta"]
 
 [ext_resource type="Script" path="res://Scenes/Enemies/Skeleton.gd" id="1_cfg7h"]
 [ext_resource type="Shader" path="res://Scenes/Effects/HitFlash.gdshader" id="2_aj3sp"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://Scripts/States/EnemyStates/Chase.gd" id="12_urg2y"]
 [ext_resource type="Script" path="res://Scripts/States/EnemyStates/Attack.gd" id="13_lapb2"]
 [ext_resource type="AudioStream" uid="uid://cv2uexjj0cfos" path="res://Assets/SFX/Enemies/Skeleton/Skeleton_Hit.mp3" id="14_chfbm"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Stunned.gd" id="14_cw4k3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xjhv5"]
 resource_local_to_scene = true
@@ -42,6 +43,9 @@ health_component = NodePath("HealthComponent")
 attack_range = 55
 speed = 58
 attack_frame = 4
+hit_knockback = 75
+knockback_acceleration = 60
+damage_label_position = Vector2(15, -15)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_xjhv5")
@@ -121,6 +125,10 @@ enemy = NodePath("../..")
 sprite = NodePath("../../AnimatedSprite2D")
 attack_cooldown = NodePath("../../Timers/AttackCooldownTimer")
 hitbox = NodePath("../../HitboxComponent")
+
+[node name="Stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("14_cw4k3")
+enemy = NodePath("../..")
 
 [node name="Timers" type="Node" parent="."]
 

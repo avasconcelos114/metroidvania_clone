@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bmqr1g77a0emo"]
+[gd_scene load_steps=28 format=3 uid="uid://bmqr1g77a0emo"]
 
 [ext_resource type="Texture2D" uid="uid://bgxou8xw250lk" path="res://Assets/Tileset/Dungeon/dungeon_tileset_2.png" id="1_55k27"]
 [ext_resource type="Script" path="res://Levels/DungeonMid.gd" id="1_j6sj8"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://bco2bxp5k2mng" path="res://Scenes/Components/HitboxComponent.tscn" id="10_woxuf"]
 [ext_resource type="Resource" uid="uid://dntbck6qbm2k0" path="res://Resources/InstaKillDamage.tres" id="11_aeet0"]
 [ext_resource type="PackedScene" uid="uid://cytkeawwyxou4" path="res://Scenes/Enemies/Demon.tscn" id="11_d181f"]
+[ext_resource type="AudioStream" uid="uid://b47x3n44hnmge" path="res://Assets/SFX/Environment/FoeVanquished.wav" id="11_wc48o"]
 [ext_resource type="PackedScene" uid="uid://xxteua3jv2xn" path="res://Scenes/Environmental/ScreenNotification.tscn" id="13_tg3ew"]
 [ext_resource type="PackedScene" uid="uid://w1bcfvtrmqyb" path="res://Scenes/Environmental/AreaTriggeredNotification.tscn" id="14_0bw5l"]
 
@@ -757,6 +758,9 @@ autoplay = true
 
 [node name="BossFightMusic" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("8_kvd25")
+
+[node name="FoeVanquisedSound" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("11_wc48o")
 
 [node name="TrapAreas" type="Node" parent="."]
 

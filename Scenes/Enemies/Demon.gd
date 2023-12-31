@@ -6,7 +6,8 @@ extends BaseEnemy
 @onready var collision_box = $CollisionShape2D
 @onready var sprite = $AnimatedSprite2D
 @onready var attack_sprite = $FireBreathAnimation
-@onready var hit_sound = $HitSound
+@onready var hit_sound = $Sounds/HitSound
+@onready var death_sound = $Sounds/DeathSound
 
 @export var health_bar: ProgressBar
 
@@ -23,6 +24,7 @@ func _physics_process(delta):
 	move_and_slide()
 
 func handle_death():
+	death_sound.play()
 	autoattack_hitbox.should_autoattack = false
 	fade_sprite()
 	await get_tree().create_timer(5).timeout
@@ -37,14 +39,14 @@ func fade_sprite():
 func set_shader_value(value: float):
 	sprite.material.set_shader_parameter("progress", value)
 
-func receive_hit(direction):
+func receive_hit(direction, damage):
 	hit_sound.play()
 	$BloodSplatter.emitting = true
 	$BloodSplatter.process_material.set("direction", direction)
 	await get_tree().create_timer(0.2).timeout
 	$BloodSplatter.emitting = false
-	
 	health_bar.value = health_component.current_health_percent()
+	super.receive_hit(direction, damage)
 
 func handle_character_direction():
 	if last_direction < 0:

@@ -40,8 +40,9 @@ func disable_hurtbox():
 func receive_hit(damage):
 	var should_hit = randi_range(0, 99) >= armor_stats.evade
 	if health_component.has_health_remaining() and is_enabled and should_hit:
-		health_component.take_damage(damage - armor_stats.armor)
-		emit_signal("ReceivedHit", hit_direction)
+		var damage_received = damage - armor_stats.armor
+		health_component.take_damage(damage_received)
+		emit_signal("ReceivedHit", hit_direction, damage_received)
 		invulnerability_timer.start()
 		InvulnerabilityTimerStarted.emit()
 	elif not should_hit:

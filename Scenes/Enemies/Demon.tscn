@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cytkeawwyxou4"]
+[gd_scene load_steps=32 format=3 uid="uid://cytkeawwyxou4"]
 
 [ext_resource type="Script" path="res://Scenes/Enemies/Demon.gd" id="1_2lpa2"]
 [ext_resource type="Shader" path="res://Scenes/Effects/Dissolve.gdshader" id="2_17nvr"]
@@ -14,9 +14,11 @@
 [ext_resource type="Script" path="res://Scripts/States/EnemyStates/Death.gd" id="11_iknqj"]
 [ext_resource type="Script" path="res://Scripts/States/EnemyStates/Chase.gd" id="12_70csn"]
 [ext_resource type="Script" path="res://Scripts/States/EnemyStates/Attack.gd" id="13_j8erd"]
-[ext_resource type="AudioStream" uid="uid://cv2uexjj0cfos" path="res://Assets/SFX/Enemies/Skeleton/Skeleton_Hit.mp3" id="14_tkrvy"]
 [ext_resource type="PackedScene" uid="uid://cnkjd4vx6wkpa" path="res://Scenes/Effects/BloodSplatter.tscn" id="15_vosuy"]
 [ext_resource type="Texture2D" uid="uid://csprqwgcj3gms" path="res://Assets/Sprites/Enemies/Demon/breath-fire.png" id="16_f4e4k"]
+[ext_resource type="AudioStream" uid="uid://8ynixqg6dctd" path="res://Assets/SFX/Enemies/Boss/Boss_Attack.mp3" id="18_0tchr"]
+[ext_resource type="AudioStream" uid="uid://baooiw27fafc7" path="res://Assets/SFX/Enemies/Boss/Boss_Hit.mp3" id="18_bpqav"]
+[ext_resource type="AudioStream" uid="uid://wsvkkhmw4heb" path="res://Assets/SFX/Enemies/Boss/Boss_Death.mp3" id="19_0thpg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xjhv5"]
 resource_local_to_scene = true
@@ -101,6 +103,7 @@ aggro_distance = 300
 attack_range = 79
 speed = 65
 attack_frame = 7
+damage_label_position = Vector2(35, -35)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_xjhv5")
@@ -181,6 +184,7 @@ attack_cooldown = NodePath("../../Timers/AttackCooldownTimer")
 hitbox = NodePath("../../HitboxComponent")
 external_attack_animation = NodePath("../../FireBreathAnimation")
 external_attack_trigger_frame = 6
+attack_sound_stream = ExtResource("18_0tchr")
 
 [node name="Timers" type="Node" parent="."]
 
@@ -189,9 +193,6 @@ external_attack_trigger_frame = 6
 [node name="AttackCooldownTimer" type="Timer" parent="Timers"]
 wait_time = 1.2
 one_shot = true
-
-[node name="HitSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("14_tkrvy")
 
 [node name="BloodSplatter" parent="." instance=ExtResource("15_vosuy")]
 material = SubResource("ShaderMaterial_kcp8m")
@@ -232,3 +233,12 @@ text = "Asylekh, The flame pariah"
 layout_mode = 2
 step = 1.0
 value = 100.0
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="HitSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("18_bpqav")
+volume_db = 10.0
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("19_0thpg")

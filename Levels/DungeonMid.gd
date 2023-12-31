@@ -13,7 +13,8 @@ func _on_area_2d_body_entered(body):
 
 func handle_boss_death():
 	await get_tree().create_timer(5).timeout
-	play_background_music()
+	$SFX/BossFightMusic.stop()
+	$SFX/FoeVanquisedSound.play()
 
 func play_boss_music():
 	$SFX/BackgroundMusic.stop()

@@ -5,9 +5,8 @@ var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var gravity_modifier := 1.5
 
 func physics_update(delta):
-	player.gravity(delta)
+	player.velocity.y = gravity_value * delta * gravity_modifier
 	player_movement()
-	player.velocity.y = gravity_value * Global.time * gravity_modifier
 
 	if player.is_on_floor() or not player.is_on_wall_only():
 		Transitioned.emit(self, "idle")

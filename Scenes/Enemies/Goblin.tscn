@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dqp2b1a7x8pcg"]
+[gd_scene load_steps=22 format=3 uid="uid://dqp2b1a7x8pcg"]
 
 [ext_resource type="Script" path="res://Scenes/Enemies/Goblin.gd" id="1_11icx"]
 [ext_resource type="Shader" path="res://Scenes/Effects/HitFlash.gdshader" id="2_oj1nu"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://Scripts/States/EnemyStates/Chase.gd" id="12_7clgk"]
 [ext_resource type="Script" path="res://Scripts/States/EnemyStates/Attack.gd" id="13_eygol"]
 [ext_resource type="PackedScene" uid="uid://cnkjd4vx6wkpa" path="res://Scenes/Effects/BloodSplatter.tscn" id="14_ktsyt"]
+[ext_resource type="Script" path="res://Scripts/States/EnemyStates/Stunned.gd" id="14_mianv"]
 [ext_resource type="AudioStream" uid="uid://pbhbka10w8bf" path="res://Assets/SFX/Enemies/Goblin/Goblin_Hit.mp3" id="15_uyj71"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xjhv5"]
@@ -48,6 +49,9 @@ health_component = NodePath("HealthComponent")
 aggro_distance = 180
 speed = 55
 attack_frame = 4
+hit_knockback = 75
+knockback_acceleration = 60
+damage_label_position = Vector2(15, -15)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_xjhv5")
@@ -123,6 +127,10 @@ enemy = NodePath("../..")
 sprite = NodePath("../../AnimatedSprite2D")
 attack_cooldown = NodePath("../../Timers/AttackCooldownTimer")
 hitbox = NodePath("../../HitboxComponent")
+
+[node name="Stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("14_mianv")
+enemy = NodePath("../..")
 
 [node name="Timers" type="Node" parent="."]
 

@@ -5,6 +5,7 @@ extends BaseEnemy
 @onready var hitbox_component = $HitboxComponent
 @onready var sprite = $AnimatedSprite2D
 @onready var hit_sound = $HitSound
+@onready var state_machine = $StateMachine
 
 func _ready():
 	health_component.DiedEvent.connect(handle_death)
@@ -22,11 +23,21 @@ func handle_death():
 	await get_tree().create_timer(5).timeout
 	queue_free()
 
-func receive_hit(direction):
+func receive_hit(direction, damage):
+	# Stun and knockback enemy
+	if not health_component.has_died:
+		var state = state_machine.get_current_state()
+		state.Transitioned.emit(state, 'stunned')
+		velocity.x = move_toward(velocity.x, direction.x * hit_knockback, knockback_acceleration)
+	
+	# Show audiovisual feedback
 	hit_sound.play()
+	Global.show_damage_flash(sprite)
+	super.receive_hit(direction, damage)
 	$BloodSplatter.emitting = true
 	$BloodSplatter.process_material.set("direction", direction)
-	Global.show_damage_flash(sprite)
+	
+	# Cleanup feedback
 	await get_tree().create_timer(0.2).timeout
 	$BloodSplatter.emitting = false
 

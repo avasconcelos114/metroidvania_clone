@@ -48,7 +48,7 @@ func _ready():
 	# Setting first state after other components initialized
 	$StateMachine.set_initial_state($StateMachine/Idle)
 
-func receive_hit_effect(direction):
+func receive_hit_effect(direction, _damage):
 	if $HealthComponent.has_health_remaining():
 		play_hurt_audio()
 		$BloodSplatter.emitting = true

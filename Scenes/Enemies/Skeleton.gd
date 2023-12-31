@@ -6,6 +6,7 @@ extends BaseEnemy
 @onready var collision_box = $CollisionShape2D
 @onready var sprite = $AnimatedSprite2D
 @onready var hit_sound = $HitSound
+@onready var state_machine = $StateMachine
 
 func _ready():
 	health_component.DiedEvent.connect(handle_death)
@@ -24,9 +25,16 @@ func handle_death():
 	await get_tree().create_timer(5).timeout
 	queue_free()
 
-func receive_hit(_direction):
+func receive_hit(direction, damage):
+	if not health_component.has_died:
+		var state = state_machine.get_current_state()
+		state.Transitioned.emit(state, 'stunned')
+	
 	Global.show_damage_flash(self.sprite)
+	velocity.x = move_toward(velocity.x, direction.x * hit_knockback, knockback_acceleration)
+
 	hit_sound.play()
+	super.receive_hit(direction, damage)
 
 func handle_character_direction():
 	if last_direction < 0:

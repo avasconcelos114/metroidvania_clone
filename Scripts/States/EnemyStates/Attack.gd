@@ -6,6 +6,7 @@ extends BaseState
 @export var hitbox: HitboxComponent
 @export var external_attack_animation: AnimatedSprite2D
 @export var external_attack_trigger_frame := 1
+@export var attack_sound_stream: AudioStream
 
 var attack_in_progress = false
 var player_direction = 0
@@ -52,7 +53,9 @@ func begin_attack():
 	# its attack state
 	if enemy.health_component.has_died:
 		return
+
 	sprite.play("attack")
+
 	if not sprite.frame_changed.is_connected(perform_attack):
 		sprite.frame_changed.connect(perform_attack)
 	if not sprite.animation_finished.is_connected(complete_attack):
@@ -60,10 +63,9 @@ func begin_attack():
 
 func perform_attack():
 	if external_attack_animation != null and sprite.frame == external_attack_trigger_frame:
-			print("setting fire animation to visible")
+			play_attack_audio()
 			external_attack_animation.visible = true
 			external_attack_animation.play()
-			print("Playing animation")
 			if not external_attack_animation.animation_finished.is_connected(hide_external_animation):
 				external_attack_animation.animation_finished.connect(hide_external_animation)
 
@@ -80,3 +82,11 @@ func complete_attack():
 func hide_external_animation():
 	if external_attack_animation:
 		external_attack_animation.visible = false
+
+func play_attack_audio():
+	if attack_sound_stream:
+		var audio = AudioStreamPlayer.new()
+		audio.stream = attack_sound_stream
+		audio.finished.connect(audio.queue_free)
+		add_child(audio)
+		audio.play()
