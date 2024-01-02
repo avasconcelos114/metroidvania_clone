@@ -15,6 +15,7 @@ var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
 # Components
 @onready var sprite = $AnimatedSprite2D
 @onready var health_component = $HealthComponent
+@onready var camera = $Camera2D
 
 # Movement skills config
 var dash_unlocked = false
@@ -67,6 +68,17 @@ func handle_player_death():
 	$AnimatedSprite2D.play("death")
 	PlayerManager.PlayerDied.emit()
 
+func handle_camera_movement():
+	var CAM_DELAY = 0.2
+	var LOOK_DIRECTION_OFFSET = 30
+	
+	var tween = get_tree().create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_BOUNCE)
+	tween.set_parallel(true)
+	tween.tween_property(camera, 'position:x', global_position.x + LOOK_DIRECTION_OFFSET * last_direction, CAM_DELAY)
+	tween.tween_property(camera, 'position:y', global_position.y, CAM_DELAY)
+
 func _physics_process(_delta):
 	if not $HealthComponent.has_died:
 		player_input()
@@ -74,6 +86,7 @@ func _physics_process(_delta):
 		handle_character_direction()
 	else:
 		velocity.x = 0
+	handle_camera_movement()
 	move_and_slide()
 
 func gravity(delta):
